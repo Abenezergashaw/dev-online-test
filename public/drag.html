@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Draggable Div</title>
+    <style>
+        /* Ensure the parent has relative positioning */
+        .container {
+            position: relative;
+        }
+
+        /* Make the div absolutely positioned */
+        .draggable {
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body class="flex items-center justify-center h-screen bg-gray-200">
+    <div class="container w-full h-full">
+        <div id="draggable" class="draggable bg-blue-500 text-white p-4 rounded shadow">
+            Drag me around
+        </div>
+    </div>
+
+    <script>
+        const draggable = document.getElementById('draggable');
+        let offsetX, offsetY;
+
+        draggable.addEventListener('mousedown', (e) => {
+            offsetX = e.clientX - draggable.getBoundingClientRect().left;
+            offsetY = e.clientY - draggable.getBoundingClientRect().top;
+
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', onMouseUp);
+        });
+
+        function onMouseMove(e) {
+            draggable.style.left = `${e.clientX - offsetX}px`;
+            draggable.style.top = `${e.clientY - offsetY}px`;
+        }
+
+        function onMouseUp() {
+            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('mouseup', onMouseUp);
+        }
+    </script>
+</body>
+
+</html>

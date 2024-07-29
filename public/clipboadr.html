@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paste Clipboard Content</title>
+    <style>
+        #paste-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .paste-item {
+            border: 1px solid #000;
+            padding: 10px;
+            width: calc(25% - 20px);
+            /* Adjust width for 4 items per row */
+            box-sizing: border-box;
+            min-height: 50px;
+            /* Minimum height for each div */
+        }
+
+        #paste-button {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Paste Clipboard Content</h1>
+    <div id="paste-container">
+        <!-- Divs for clipboard content will be added here -->
+    </div>
+    <button id="paste-button">Paste Clipboard</button>
+
+    <script>
+        document.getElementById('paste-button').addEventListener('click', async () => {
+            try {
+                // Read text from clipboard
+                const text = await navigator.clipboard.readText();
+
+                // Split the text by newlines
+                const lines = text.split('\n');
+
+                // Find the container where the divs will be added
+                const container = document.getElementById('paste-container');
+
+                // Clear previous content
+                container.innerHTML = '';
+
+                // Create divs for each line, up to 16 divs
+                for (let i = 0; i < Math.min(lines.length, 16); i++) {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'paste-item';
+                    lineDiv.textContent = lines[i];
+                    container.appendChild(lineDiv);
+                }
+            } catch (err) {
+                console.error('Failed to read clipboard contents: ', err);
+            }
+        });
+    </script>
+</body>
+
+</html>

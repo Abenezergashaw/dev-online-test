@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Div Example</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .slide-transition {
+            transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+        }
+
+        .slide-transition.show {
+            max-height: 100px;
+            /* Adjust based on the content height */
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body class="flex items-center justify-center min-h-screen bg-gray-100">
+    <div id="inputContainer" class="flex flex-col space-y-4">
+        <!-- Input fields will be inserted here dynamically -->
+    </div>
+    <div id="hiddenText" class="slide-transition text-blue-500 mt-2">Some text</div>
+    <button id="removeAll" class="mt-4 px-4 py-2 bg-red-500 text-white rounded">Remove All</button>
+    <button id="addAll" class="mt-4 px-4 py-2 bg-green-500 text-white rounded">Add All</button>
+
+    <script>
+        const hiddenText = document.getElementById('hiddenText');
+        let currentInput = null;
+
+        function handleHiddenTextClick() {
+            if (currentInput) {
+                currentInput.value = hiddenText.textContent;
+                currentInput.select(); // Select and highlight the new text content
+            }
+        }
+
+        hiddenText.onclick = handleHiddenTextClick;
+
+        function setupInputFields() {
+            const inputContainer = document.getElementById('inputContainer');
+            inputContainer.innerHTML = ''; // Clear existing input fields
+
+            const inputs = ['Input 1', 'Input 2', 'Input 3'];
+
+            inputs.forEach((placeholder, index) => {
+                const inputWrapper = document.createElement('div');
+                inputWrapper.className = 'input-wrapper flex items-center';
+
+                const inputField = document.createElement('input');
+                inputField.type = 'text';
+                inputField.className = 'input-field p-2 border border-gray-300 rounded';
+                inputField.placeholder = placeholder;
+
+                const removeButton = document.createElement('button');
+                removeButton.className = 'ml-2 px-2 py-1 bg-red-500 text-white rounded';
+                removeButton.textContent = 'Remove';
+                removeButton.onclick = () => removeInputElement(removeButton);
+
+                inputWrapper.appendChild(inputField);
+                inputWrapper.appendChild(removeButton);
+                inputContainer.appendChild(inputWrapper);
+
+                inputField.addEventListener('focus', (event) => {
+                    const parentDiv = event.target.parentElement;
+                    currentInput = event.target;
+
+                    // Select and highlight the text content
+                    currentInput.select();
+
+                    // Reposition the hiddenText div
+                    if (hiddenText.parentElement !== parentDiv) {
+                        hiddenText.classList.remove('show');
+                        setTimeout(() => {
+                            if (hiddenText.parentElement) {
+                                hiddenText.parentElement.removeChild(hiddenText);
+                            }
+                            parentDiv.appendChild(hiddenText);
+                            setTimeout(() => {
+                                hiddenText.classList.add('show');
+                            }, 0); // Add the show class in the next event loop to trigger the transition
+                        }, 0); // Match this duration with the CSS transition duration
+                    }
+                });
+            });
+        }
+
+        // Function to dynamically remove an input element
+        function removeInputElement(button) {
+            const inputContainer = document.getElementById('inputContainer');
+            const inputWrapper = button.parentElement;
+            if (inputWrapper.contains(hiddenText)) {
+                hiddenText.parentElement.removeChild(hiddenText);
+                currentInput = null;
+                bod
+            }
+            inputContainer.removeChild(inputWrapper);
+        }
+
+        document.getElementById('removeAll').addEventListener('click', () => {
+            const inputContainer = document.getElementById('inputContainer');
+            inputContainer.innerHTML = ''; // Remove all input fields
+            hiddenText.classList.remove('show'); // Hide the hidden text element
+        });
+
+        document.getElementById('addAll').addEventListener('click', () => {
+            setupInputFields();
+        });
+
+        // Initialize input fields on page load
+        setupInputFields();
+    </script>
+</body>
+
+</html>

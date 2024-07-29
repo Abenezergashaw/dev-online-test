@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spin and Win</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .wheel {
+            width: 300px;
+            height: 300px;
+            border: 5px solid #ccc;
+            border-radius: 50%;
+            position: relative;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .wheel-segment {
+            width: 50%;
+            height: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform-origin: 0 0;
+            clip-path: polygon(50% 50%, 0 100%, 100% 100%);
+        }
+
+        /* .wheel-segment:nth-child(1) {
+            transform: rotate(0deg);
+            background: red;
+        } */
+
+        .wheel-segment:nth-child(2) {
+            transform: rotate(60deg);
+            background: orange;
+        }
+
+        .wheel-segment:nth-child(3) {
+            transform: rotate(120deg);
+            background: yellow;
+        }
+
+        .wheel-segment:nth-child(4) {
+            transform: rotate(180deg);
+            background: green;
+        }
+
+        .wheel-segment:nth-child(5) {
+            transform: rotate(240deg);
+            background: blue;
+        }
+
+        .wheel-segment:nth-child(6) {
+            transform: rotate(300deg);
+            background: purple;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="wheel" id="wheel">
+            <div class="wheel-segment">1</div>
+            <div class="wheel-segment">2</div>
+            <div class="wheel-segment">3</div>
+            <div class="wheel-segment">4</div>
+            <div class="wheel-segment">5</div>
+            <div class="wheel-segment">6</div>
+        </div>
+        <button id="spinButton">Spin</button>
+    </div>
+    <script>
+        const wheel = document.getElementById('wheel');
+        const spinButton = document.getElementById('spinButton');
+
+        spinButton.addEventListener('click', () => {
+            const randomDegree = Math.floor(Math.random() * 360) + 360 * 3; // at least 3 full spins
+            wheel.style.transition = 'transform 4s ease-out';
+            wheel.style.transform = `rotate(${randomDegree}deg)`;
+
+            // Remove transition after animation to make it reusable
+            setTimeout(() => {
+                wheel.style.transition = 'none';
+                const actualDegree = randomDegree % 360;
+                wheel.style.transform = `rotate(${actualDegree}deg)`;
+            }, 4000);
+        });
+
+    </script>
+</body>
+
+</html>

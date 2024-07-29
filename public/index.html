@@ -1,0 +1,1992 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cashier</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="icon" type="image/x-icon" href="./icons/favicon.ico">
+    <style>
+        .active {
+            color: #10B981;
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .accordion-content.open {
+            max-height: 500px;
+            /* Adjust as needed */
+        }
+
+        .custom-grid {
+            grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;
+        }
+
+        .width-75 {
+            width: 85%;
+        }
+
+        .slide-transition {
+            transition: max-height 0.1s ease-in;
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+        }
+
+        .slide-transition.show {
+            max-height: 100px;
+            /* Adjust based on the content height */
+            opacity: 1;
+        }
+
+        /* Hide spinners in number input */
+        /* Chrome, Safari, Edge, Opera */
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        body::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        body::-webkit-scrollbar-track {
+            background: #111827;
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background: #10B981;
+        }
+
+        body::-webkit-scrollbar-thumb:hover {
+            background: #047857;
+        }
+
+        /* Ensure html and body take up full height */
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        .selected {
+            background-color: #10B981;
+        }
+
+        @media screen and (max-width: 1024px) {
+            .width-75 {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-800 overflow-y-scroll">
+    <nav class="bg-gray-900 p-4 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center relative">
+            <a href="#" class="text-white text-lg font-semibold">KIRON</a>
+
+            <!-- Centered Nav Links -->
+            <div class="hidden lg:flex space-x-4 absolute left-1/2 transform -translate-x-1/2">
+                <button class="bg-green-500 text-white font-bold py-2 px-4 rounded shadow-lg hover:bg-green-700">
+                    Cashier Options
+                </button>
+                <button class="bg-green-500 text-white font-bold py-2 px-4 rounded shadow-lg hover:bg-green-700">
+                    Cancel
+                </button>
+                <button class="bg-green-500 text-white font-bold py-2 px-4 rounded shadow-lg hover:bg-green-700">
+                    Redeem
+                </button>
+            </div>
+
+            <!-- Logout Button -->
+            <div class="hidden lg:flex items-center space-x-4">
+                <p class="text-white user-name">abenezergashaw3.cashier1(<span>cashier3</span>)</p>
+                <a href="#" class="text-green-500 hover:text-green-300">Logout</a>
+            </div>
+
+            <!-- Mobile Toggle Button -->
+            <div class="block lg:hidden">
+                <button id="navbar-toggle" class="text-white focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="hidden lg:hidden" id="navbar-menu">
+            <button
+                class="block bg-green-100 text-black font-bold py-2 px-4 rounded shadow-lg w-full sm:w-auto hover:bg-green-700 mb-2 ">
+                Cashier Options </button>
+            <button
+                class="block bg-green-100 text-black font-bold py-2 px-4 rounded shadow-lg w-full sm:w-auto hover:bg-green-700 mb-2 ">
+                Cancel </button>
+            <button
+                class="block bg-green-100 text-black font-bold py-2 px-4 rounded shadow-lg w-full sm:w-auto hover:bg-green-700 mb-2 ">
+                Redeem </button>
+            <a href="#"
+                class="block text-gray-300 hover:text-white px-2 py-1 w-full sm:w-auto mb-2 text-center bg-red-500 py-2 hover:bg-red-700 font-bold rounded">Logout</a>
+        </div>
+    </nav>
+
+    <div class="flex flex-col lg:flex-row">
+        <!-- 70% Section -->
+        <div class=" bg-gray-800 px-4 py-2 lg:flex-none lg:w-9/12">
+            <div class="flex justify-start items-center mb-8">
+
+                <div class="group mr-4 cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 67.5 18.1"
+                        class="w-14 h-5 fill-current text-white group-hover:text-green-500 active tab-button"
+                        style="enable-background:new 0 0 67.5 18.1;" xml:space="preserve">
+                        <path class="st0" d="M64.6,14.5c1,0.4,2.9,0.7,2.9,1.6c0,0.6-1.1,1.1-1.8,1.1c-0.7,0-1.4-0.3-1.9-0.5c-0.7-0.2,0.9,0.7,0.4,1.1
+                            c-0.9,0.6-2-0.2-2.8-0.4c-0.2-1-0.8-1.6-1.4-2.3c-2-0.2-4.5-0.2-6.9,0c-1.9,0.1-3.6,0.6-4.8,0c-0.6-0.3-0.8-0.9-1.3-1.4
+                            c-0.4-0.4-1-0.7-1.3-1.3c-1.9,0.8-4.5,1.1-6.2,0.4c-0.8-0.4-1.5-1.1-2.1-1.6c-1-0.8-2.1-1.7-3.5-2c-0.4-0.1-0.8,0.1-1.1,0
+                            c-0.7-0.1-1.6-0.5-2.8-0.4c-1.2,0.1-2.5,0.6-3.4,1.1c-1.1,0.7-1.9,2.2-3.2,2.9c-0.5,0.3-1.2,0.6-1.8,0.8c-0.8,0.2-1.5-0.1-2.4,0
+                            c-0.6,0.1-1.1,0.6-1.8,0.8c-2.2,0.5-4.6-0.1-6.8-0.6c-1.1,0.7-5.7,2.7-5.6-0.5c1-0.6,2.2,0.3,3.2-0.3c-2.3-1.3-5.1,0.9-7.4,0
+                            c-0.5-0.6-1.3-1.2-0.9-2.4c1.1-0.5,1.6,0.6,2.7,0.6c0.7,0,1.4-0.5,2.3-0.6c0.6-0.1,1.5-0.2,2.3-0.3c1.9-0.2,2.9-0.2,4,0.6
+                            c0.6-0.6,1-1.3,1.9-1.5c2.6,1.3,3.4-0.5,4.5-2.3c0-0.1-0.1-0.3,0-0.4c0.6-0.6,1.6-1.6,2.3-2.3c-4.8,0.2-8.4,2.2-13.6,1.5
+                            c-0.8-0.7-2.9-1.1-2-2.7c1.5,0.1,2.1,1.3,3.9,1.4C10,5,12.4,4.2,14.9,3.8c1.1-0.2,2.2-0.4,3.3-0.6c1.2-0.2,2.4-0.3,3.4-0.5
+                            c0.5-0.1,0.9-0.4,1.4-0.5c0.4-0.1,0.9,0,1.3,0c0.6-0.1,1.2-0.3,1.8-0.4c1-0.1,2.1,0.1,3.2,0.1c0.9,0,1.8-0.3,2.7-0.4
+                            c0.6,0,1.2,0.1,1.8,0c1.2-0.1,2.7-0.8,4-1c2-0.3,4.5-0.7,7.1-0.4c1.4,0.2,2.6,0.9,4.2,1c1.7,0.1,3.6-0.5,5.3-0.5
+                            c2.2,0,3.5,1,5.4,1.9c0.6,0.8,1,1.5,2,2.3c0.8,0.6,2.6,1.1,2.7,2.1c0.1,1.1-1.4,1.8-2.9,1.6c-0.8-0.1-1.6-0.5-2.7-0.6
+                            c-1.2-0.2-2.4,0-3.3-0.3c-0.8-0.2-1.4-1-2-1.1c-1.1-0.2-2.3,0.3-2.7,1c0.3,1.4-0.1,2.6,0.6,3.4c0.5,0.5,1.9,0.6,3,0.8
+                            c1.2,0.2,2.3,0.2,3.4,0.4c1.6,0.2,2.5,1,3.7,0.9C62.2,13.3,63.3,13.9,64.6,14.5z" />
+                    </svg>
+                </div>
+                <div class="group mr-4 cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 49.5 36.1"
+                        class="w-10  fill-current text-white group-hover:text-green-500 tab-button"
+                        style="enable-background:new 0 0 49.5 36.1;" xml:space="preserve">
+                        <g>
+                            <g>
+                                <path class="st0"
+                                    d="M49.4,9.7c-0.2-0.1-0.3-0.2-0.5-0.4c-0.5-0.4-1.6-1.3-1.8-1.9c-0.1-0.1,0-0.1,0-0.2c0,0,0-0.1-0.1-0.1c-0.2-0.1-0.1-0.1-0.2,0c-0.6-0.5-0.8-1.4-1.2-2c-0.4-0.4-0.8-0.8-1.2-1.2c-0.3-0.5-0.1-0.9-0.4-1.4c0-0.1,0,0-0.2-0.1c0,0.1,0,0.2,0,0.2h0c0-0.1,0-0.1,0-0.2c-0.1-0.1-0.1-0.1-0.2-0.1c-0.4-0.2-0.9-0.4-1.2-0.8c-0.1-0.3-0.2-0.5-0.4-0.8V1h0C42,1.2,42,1.6,41.7,1.6c0,0.1,0,0,0,0.1c-0.1,0-0.1,0-0.2,0c0,0,0.1,0,0.1,0.1c0,0,0,0.1,0.1,0.1c-0.2,0-0.5-0.1-0.7-0.1c0,0.1,0,0.1-0.1,0.1C41,1.9,41,1.9,41.1,2c-0.1,0-0.2-0.1-0.3-0.1c0,0.1,0,0.1-0.1,0.2c0.2,0.1,0.3,0.1,0.5,0.2c-0.5-0.1-0.9-0.2-1.4-0.3c-0.1,0-0.1,0.1-0.2,0.1c0.1,0.1,0.3,0.1,0.4,0.2h0.1v0.1c-0.6-0.1-1.1-0.1-1.7-0.2c0.2,0.2,0.6,0.4,1.1,0.4c-0.4,0.1-0.8-0.2-1.3-0.2c0,0.1,0,0,0,0.1c-0.2,0-0.2,0-0.4,0.2c0,0,0.1,0.1,0.1,0.1c0,0-0.1,0-0.1,0c0,0.1,0.1,0.1,0.1,0.2c0,0,0,0.1,0,0.1c-0.1,0-0.2,0-0.3,0c0,0,0.1,0.1,0.1,0.1c-0.1-0.1-0.3-0.1-0.4-0.2c0.1,0.1,0.3,0.1,0.4,0.3c0.1,0.1,0.1,0.1,0.2,0.2c-0.5-0.1-0.9-0.2-1.4-0.4c0.4,0.4,1.1,0.4,1.5,0.8c-0.4-0.2-0.8-0.4-1.3-0.5c0.1,0.1,0.2,0.2,0.3,0.3c0,0,0,0,0,0.1c-0.2,0-0.7-0.1-0.8,0h-0.1c0,0,0.1,0.1,0.1,0.1c0,0,0,0.1,0,0.1C36,4.1,35.8,4,35.6,4c0.1,0.1,0.1,0.1,0.2,0.2v0c-0.1,0-0.1,0-0.2-0.1c0.2,0.5,0.6,0.6,0.9,0.9c-0.3-0.1-0.9-0.6-1.3-0.3l0,0c0.1,0,0.1,0,0.2,0.1c-0.1,0-0.3,0-0.4,0c0.1,0.1,0.2,0.2,0.3,0.3c-0.1,0.1-0.3,0-0.4,0c0,0,0,0-0.1,0c0.1,0.1,0.3,0.1,0.4,0.2v0.1c-0.7,0-0.9-0.2-1.5,0v0c0.1,0,0.1,0.1,0.2,0.1v0c-0.1,0.1-0.1,0.1-0.3,0.1C33.8,6,33.9,6,34,6.2c-0.1,0.1-0.2,0.1-0.4,0.2c0,0,0,0,0,0.1c0,0,0.1,0.1,0.1,0.1c-0.2,0.1-0.4-0.1-0.5-0.2c-0.1,0.1-0.1,0.3-0.1,0.4C33,6.8,33,6.8,32.8,6.8v0.2c-0.1,0-0.1,0-0.2,0.1c-0.1-0.3-0.5-0.4-0.9-0.5c-0.1,0.1-0.2,0.2-0.3,0.2c-0.4-0.2-1.1-0.3-1.6-0.2C30,5.6,30.2,4.8,30.5,4h0c0.1,0.2,0.3,0.5,0.4,0.7c0.1,0,0.2,0.1,0.3,0.1c0.2-0.3,0.5-0.3,0.6-0.6c0.1,0,0.1,0,0.3,0.1c0.1-0.2,0.2-0.3,0.2-0.5c0.4-0.2,0.3-0.5,0.5-0.8C32.9,3.1,33,3,33,3c0.2,0.1,0.4,0.3,0.6,0.3c0-2.2,0.1-3-2.1-3.3c-0.3,0.2-0.7,0.2-0.9,0.4c-0.2,0.4-0.5,0.8-0.7,1.1c0,0.1,0,0.1,0.2,0.2C30,1.9,30,2,30,2.1c-0.1-0.2-0.3-0.3-0.4-0.5c-1.8,0-6.1,1.2-6.9,2.2c-0.1,0.1-0.3,0.1-0.4,0.2c-0.4,0.2-0.9,0.5-1.1,0.9c-1,1.7,1.3,3.8,2.2,4.4C23.7,9.5,24,10,24.6,10c-0.1,0.2-1.9-0.5-2.3-0.6c-0.1,0.1-0.1,0.2-0.2,0.4c0.2,0.2,0.3,0.5,0.5,0.7c0,0,0,0.1,0,0.1c-0.6,0-2-0.2-2.1,0.3c-2.4-0.1-4.3-1.4-7-0.8c-1.2,0.3-2.4,0.9-3.2,1.7C10,12.1,9.8,13,9.4,13.2c-0.8,0.6-1.9,0.7-2.9,1.1c-1.4,0.6-2.9,1.3-4.3,1.9c-0.4,0.2-0.8,0.5-1.2,0.7c0,0,0,0,0,0.1c0.4-0.1,0.6-0.3,0.9-0.4c0.4-0.1,0.8-0.2,1.2-0.3c-0.2,0.2-0.5,0.3-0.8,0.4h0.2c-0.2,0.1-0.3,0.2-0.5,0.3c0,0,0,0,0,0.1c0.9-0.2,1.7-0.8,2.6-1c-0.8,0.6-1.9,0.8-2.8,1.4c-0.5,0.3-1.1,0.6-1.6,0.9c0,0-0.1,0.1-0.1,0.1c0.8-0.3,1.6-1,2.4-1v0c-0.6,0.3-1.2,0.6-1.8,0.9c0.3,0.1,1.9-0.8,2.3-1c-0.2,0.1-0.4,0.2-0.6,0.3c0.1,0,0.4-0.1,0.5-0.1c-0.6,0.7-2.2,0.7-2.6,1.4c0.6-0.2,1.2-0.6,1.9-0.7c-0.6,0.3-1.2,0.7-1.8,1c0.5-0.2,1-0.4,1.6-0.6c-0.2,0.1-0.4,0.2-0.6,0.3c0.1,0,0.1,0,0.2,0c-0.3,0.1-0.5,0.2-0.8,0.3c0.1,0,0.2,0,0.3,0c-0.2,0.1-0.4,0.2-0.6,0.3c0,0-0.1,0.2-0.3,0.2c0.5-0.1,0.9-0.2,1.4-0.2c-0.1,0.1-0.2,0.1-0.3,0.2c0.1,0,0.2,0,0.3-0.1c-0.3,0.2-0.6,0.4-1,0.6c0.1,0,0.3-0.1,0.4-0.1c-0.1,0.1-0.2,0.1-0.3,0.2c0,0,0,0.1,0,0.1c0.7-0.2,1.2-0.5,1.8-0.8c-0.1,0.1-0.3,0.3-0.5,0.3c0.1,0,0.3-0.1,0.4-0.2c-0.3,0.3-1,0.6-1.5,0.7c0.1,0.1,0.1,0,0.1,0.1C1.6,20.4,2,20.2,2.5,20c-0.2,0.2-0.6,0.3-0.8,0.5c0.1,0,0.2-0.1,0.3-0.1c0,0-0.1,0.1-0.1,0.1c0.2-0.1,0.5-0.2,0.7-0.3c-0.1,0.1-0.2,0.2-0.3,0.2c0.4,0.1,2-1.1,2.3-1.3c-0.1,0.1-0.3,0.2-0.4,0.3c0,0,0,0.1-0.1,0.1c0.1,0,0.1-0.1,0.2-0.1c-0.2,0.2-0.4,0.4-0.7,0.5c0,0,0,0.1-0.1,0.1C3.7,20,3.8,20,3.9,19.9c-0.2,0.2-0.3,0.3-0.5,0.5c0.1,0,0.1,0,0.2-0.1c-0.2,0.2-0.5,0.3-0.7,0.5c0,0,0,0.1-0.1,0.1c0.3-0.2,0.7-0.4,1-0.6c0.5-0.3,0.9-0.6,1.4-0.9c0.3-0.3,0.6-0.7,0.9-1c0.7-0.9,1.6-1.9,2.5-2.6c-0.1,0.9,0.8,3.3,1.2,4c0.1,0.1,0.3,0.1,0.4,0.2c0.2,0.3,0.4,0.7,0.6,1c-0.1,0.1-0.2,0.3-0.3,0.4c-1.3,0.4-3.3,0.1-4.5,0.1c-0.2,0.3-0.4,0.6-0.6,0.9c-0.1,0.4-0.2,0.8-0.3,1.2c-0.3,1.1-0.7,2.1-1,3.2c-0.2,0.5-0.3,1-0.5,1.5c0,0.2,0.1,0.3,0,0.5c0,0.1-0.1,0.1-0.1,0.1c-0.4-0.2-0.7-0.4-1.3-0.2c-0.6,0.2-0.5,1.4-0.5,2.3c0.1,0.1,0.3,0.2,0.4,0.2c0.6-0.4,2.1-1.2,2.4-1.7c0.2-0.6,0.4-1.2,0.7-1.9c0.4-1.2,0.8-2.6,1.4-3.7C7,24,7.4,24.1,7.7,24.1c1.1,0,2.1,0.1,3.2,0.1c0.6,0,1.2,0.1,1.8,0.1c0.8-0.4,1.6-0.7,2.3-1.1c0.3-0.5,0.6-1,0.9-1.4h0c0.2,0.2,0.5,0.5,0.7,0.7c-0.5,0.3-3.3,2.3-3.4,2.7c-0.1,0.6,0.5,1.2,0.8,1.5c0.8,0.8,2,1.2,2.9,1.8c0.6,0.4,1.3,0.8,1.9,1.1c0.1-0.1,0.1-0.1,0.2-0.2c-0.1,0.3-0.4,0.3-0.6,0.6c-0.1,0.2-0.2,0.4-0.3,0.6c0.1,0.6,0.8,0.8,1.2,1.1c-0.2,0.3-0.6,0.4-0.9,0.5c0,0-0.5,1-0.5,1.1c-0.5,0.3-1,0.2-1.6,0.5c0.2,0.8,0.6,1.4,0.9,2.1c0,0,0,0,0.1,0c0.9-0.5,1.1-1.7,1.7-2.5c0.2-0.2,0.7-0.4,1-0.6c1.1-0.8,2-1.9,3.5-2.4c0.1-0.1,0.2-0.2,0.3-0.3c0.2,0.3,0.5,0.6,0.9,0.6c0.6-0.1,1.1-0.1,1.7-0.2c0.6,0,1.3-0.1,1.9-0.1c0.2,0,0.3,0.1,0.5,0.1c0.3-0.1,0.7-0.2,1-0.3c0.5-1,0.2-2.6,0.4-3.9c0-0.5,0-1,0-1.6c0.2-0.2,0.5-0.5,0.7-0.7c1-1.3,2.7-2,3.7-3.3c0.4-0.5,0.8-1.4,0.9-2c0.1-0.4,0.2-0.9,0.3-1.3c0.7-0.8,1.3-1.6,2-2.5c0.3-0.6,0.6-1.2,0.9-1.8c0.6-1.1,1.5-2.2,1.9-3.5c0.2,0.1,0.4,0.2,0.6,0.3c0,0.2-0.1,0.3-0.1,0.5c0.1,0,0.2,0,0.3-0.1c0.1-0.1,0.1-0.2,0.2-0.3c0.5,0.1,1.1,0.2,1.6,0.3c0.3,0.1,0.6,0.2,0.9,0.3c0.1,0.1,0,0.1,0.1,0.2c0.3,0.1,0.6,0.1,0.9,0.2c0.8,0.3,1.7,1.2,2.5,1.3c0.5,0.1,1.2-0.4,1.6-0.5C49.2,11.2,49.8,10.4,49.4,9.7z M0.9,19.6L0.9,19.6c0.2-0.1,0.4-0.2,0.5-0.2h0.1C1.4,19.4,1.2,19.5,0.9,19.6z M24,27.1c-0.2,0.3-0.4,0.5-0.6,0.8c-0.5,0.3-1,0.2-1.3,0.6c0.1,0.1,0.2,0.2,0.3,0.3c-0.2,0.2-0.2,0.4-0.4,0.7c-0.6,0.6-1.2,1.1-1.7,1.7c0-0.8-0.1-1.5-0.1-2.3c-0.3-0.6-2.7-1.8-3.4-2.3C16.4,26.4,16,26,15.5,26V26c1.1-0.4,2.3-1.6,3.2-2.3c0.4-0.3,0.8-0.6,1.2-0.9c0.3-0.5,0.5-1,0.8-1.5c0.9,0.4,1.8,1,3,1.2c0,0.1,0.1,0.2,0.1,0.3c0.3,0.4,1.1,0,1.4,0c0.2,0.1,0.5,0.1,0.7,0.2C25.5,24.8,24.8,25.9,24,27.1z M24.4,29.9c0,0,0-0.1,0-0.1c1-1.3,2.7-1.9,3.5-3.3c0.3,0.3,0.2,1.1,0.4,1.6c0.2,0.4,0.3,0.7,0.5,1.1C27.4,29.4,25.8,29.7,24.4,29.9z M30.8,8.9L30.8,8.9c0-0.1,0.1-0.1,0.1-0.2h0.1c0,0,0,0,0,0.1C30.9,8.8,30.8,8.8,30.8,8.9z M31.1,8.3c-0.2,0.3-0.3,0.6-0.7,0.5c0,0.1,0,0.1-0.1,0.2c0,0,0.1,0.1,0.1,0.1c-0.2,0.1-0.3,0.1-0.5,0.1c0,0.2,0,0.1,0.1,0.2v0c-0.1,0-0.3,0-0.3,0.1h-0.1c0.1,0,0.2,0.1,0.3,0.1c-0.1,0-0.2,0-0.2,0c0.1,0.2,0.2,0.2,0.3,0.4c-0.1,0.1-0.2,0.1-0.2,0.2c-0.4,0-0.9,0-1.3,0v-0.1c-0.1,0-0.3,0.1-0.4,0.1c0.3-0.9-1.7-2.8-2.3-3.4c0,0,0,0-0.1,0c0.6,0,1.3-0.1,1.9-0.1c0.1,0.3,0.3,0.6,0.4,0.8c0,0.1,0,0.3,0,0.4C28,8.1,30.5,8.2,31.1,8.3L31.1,8.3z M31.5,8.3C31.5,8.3,31.4,8.3,31.5,8.3C31.4,8.3,31.4,8.3,31.5,8.3L31.5,8.3L31.5,8.3z M31.5,8.2c0,0,0.1-0.1,0.1-0.1c0.1,0,0.2,0,0.2,0.1c0,0,0,0,0,0.1H31.5z M32.8,7.6c-0.1,0-0.1,0-0.2,0c0,0,0,0,0-0.1C32.7,7.5,32.8,7.5,32.8,7.6L32.8,7.6z M38.5,3.2c0.2,0,0.5,0.1,0.7,0.1C39.1,3.4,38.7,3.3,38.5,3.2z" />
+                            </g>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+
+
+            <!-- Tabs -->
+            <div class="tab-content">
+                <div class="tab-pane dog-container">
+                    <div class="accordion-item bg-gray-900 rounded shadow-md mb-2 hidden">
+                        <div class="accordion-header flex justify-between items-center p-1 cursor-pointer text-white">
+                            <div class="flex items-center">
+                                <div class="flex flex-col">
+                                    <span class="bg-yellow-200 rounded text-red-7
+                                        00 flex justify-center items-center">2:03</span>
+                                    <h2 class="text-lg font-semibold mr-2">17:51</h2>
+                                </div>
+                                <div class="flex flex-col">
+                                    <div class="font-semibold">
+                                        CRAWFORD PARK (DAY) 720
+                                    </div>
+                                    <div class="font-semibold">
+                                        ID 2096
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="toggle-btn text-3xl font-bold">+</button>
+                        </div>
+                        <div class="accordion-content px-4">
+                            <div class="width-75">
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                    <div class="">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center justify-center  h-8 w-14 text-white ">
+                                        Win</div>
+                                    <div class="flex 
+                                   items-center text-center justify-center h-8 w-14 text-white ">
+                                        Place</div>
+                                    <div class="flex 
+                                   items-center text-center  justify-center h-8 w-14 ">
+                                        Combo</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/1.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div class="flex 
+                                   items-center text-center bg-yellow-200  justify-center h-8 w-14 text-gray-800 font-semibold rounded hover:bg-green-700 cursor-pointer dog"
+                                        id="dog-win-1">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        1</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/2.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer dog"
+                                        id="dog-win-2">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        2</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/3.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer dog"
+                                        id="dog-win-3">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        3</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/4.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer dog"
+                                        id="dog-win-4">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        4</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/5.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer dog"
+                                        id="dog-win-5">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        5</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/6.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer dog"
+                                        id="dog-win-6">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        6</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane hidden">
+                    <div class="accordion-item bg-gray-900 rounded shadow-md mb-2">
+                        <div class="accordion-header flex justify-between items-center p-1 cursor-pointer text-white">
+                            <div class="flex items-center">
+                                <h2 class="text-lg font-semibold mr-2">17:51</h2>
+                                <div class="flex flex-col">
+                                    <div class="font-semibold">
+                                        CRAWFORD PARK (DAY) 720
+                                    </div>
+                                    <div class="font-semibold">
+                                        ID 2096
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="toggle-btn text-3xl font-bold">+</button>
+                        </div>
+                        <div class="accordion-content px-4">
+                            <div class="width-75">
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/1.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        1</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/2.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        2</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/3.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        3</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/4.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        4</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/5.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        5</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/6.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        6</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item bg-gray-900 rounded shadow-md mb-2">
+                        <div class="accordion-header flex justify-between items-center p-1 cursor-pointer text-white">
+                            <div class="flex items-center">
+                                <h2 class="text-lg font-semibold mr-2">17:51</h2>
+                                <div class="flex flex-col">
+                                    <div class="font-semibold">
+                                        CRAWFORD PARK (DAY) 720
+                                    </div>
+                                    <div class="font-semibold">
+                                        ID 2096
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="toggle-btn text-3xl font-bold">+</button>
+                        </div>
+                        <div class="accordion-content px-4">
+                            <div class="width-75">
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/1.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        1</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/2.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        2</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/3.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        3</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/4.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        4</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/5.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        5</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/6.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        6</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item bg-gray-900 rounded shadow-md mb-2">
+                        <div class="accordion-header flex justify-between items-center p-1 cursor-pointer text-white">
+                            <div class="flex items-center">
+                                <h2 class="text-lg font-semibold mr-2">17:51</h2>
+                                <div class="flex flex-col">
+                                    <div class="font-semibold">
+                                        CRAWFORD PARK (DAY) 720
+                                    </div>
+                                    <div class="font-semibold">
+                                        ID 2096
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="toggle-btn text-3xl font-bold">+</button>
+                        </div>
+                        <div class="accordion-content px-4">
+                            <div class="width-75">
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/1.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        1</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/2.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        2</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/3.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        3</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/4.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        4</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/5.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        5</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/6.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        6</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item bg-gray-900 rounded shadow-md mb-2">
+                        <div class="accordion-header flex justify-between items-center p-1 cursor-pointer text-white">
+                            <div class="flex items-center">
+                                <h2 class="text-lg font-semibold mr-2">17:51</h2>
+                                <div class="flex flex-col">
+                                    <div class="font-semibold">
+                                        CRAWFORD PARK (DAY) 720
+                                    </div>
+                                    <div class="font-semibold">
+                                        ID 2096
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="toggle-btn text-3xl font-bold">+</button>
+                        </div>
+                        <div class="accordion-content px-4">
+                            <div class="width-75">
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/1.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        1</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/2.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        2</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/3.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        3</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/4.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        4</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/5.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        5</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/6.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        6</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item bg-gray-900 rounded shadow-md mb-2">
+                        <div class="accordion-header flex justify-between items-center p-1 cursor-pointer text-white">
+                            <div class="flex items-center">
+                                <h2 class="text-lg font-semibold mr-2">17:51</h2>
+                                <div class="flex flex-col">
+                                    <div class="font-semibold">
+                                        CRAWFORD PARK (DAY) 720
+                                    </div>
+                                    <div class="font-semibold">
+                                        ID 2096
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="toggle-btn text-3xl font-bold">+</button>
+                        </div>
+                        <div class="accordion-content px-4">
+                            <div class="width-75">
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/1.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        1</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/2.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        2</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/3.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        3</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/4.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        4</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/5.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        5</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                                <div class="grid gap-4 items-center my-1 text-white"
+                                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                                    <div class=" text-center w-10">
+                                        <img src="./images/dog/6.png">
+                                    </div>
+                                    <div class="flex 
+                                   items-center text-center">Juliebee</div>
+                                    <div
+                                        class="flex 
+                                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                                        F1</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        2.66</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                                        1.45</div>
+                                    <div
+                                        class="flex 
+                                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                                        6</div>
+                                    <div class="flex 
+                                   items-center text-center"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <!-- 30% Section -->
+        <div class="flex-1 lg:flex-none lg:w-3/12 bg-gray-900 mt-1">
+
+            <!-- Betslip Div -->
+            <div class="text-green-500 text-lg flex justify-center mt-1">Betslip</div>
+
+            <!-- Dynamic ticket -->
+            <div class="p-2 " id="dynamic-tickets-div">
+                <div class="bg-gray-800 h-30 rounded p-1 relative mb-1 hidden">
+                    <i
+                        class="fa-solid fa-xmark text-gray-100 text-2xl absolute top-1 right-2 hover:text-gray-400 cursor-pointer"></i>
+                    <div class="flex">
+                        <div class="pt-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 67.5 18.1"
+                                class="w-6 h-5 fill-current text-white group-hover:text-green-500 active tab-button"
+                                style="enable-background:new 0 0 67.5 18.1;" xml:space="preserve">
+                                <path class="st0" d="M64.6,14.5c1,0.4,2.9,0.7,2.9,1.6c0,0.6-1.1,1.1-1.8,1.1c-0.7,0-1.4-0.3-1.9-0.5c-0.7-0.2,0.9,0.7,0.4,1.1
+                            c-0.9,0.6-2-0.2-2.8-0.4c-0.2-1-0.8-1.6-1.4-2.3c-2-0.2-4.5-0.2-6.9,0c-1.9,0.1-3.6,0.6-4.8,0c-0.6-0.3-0.8-0.9-1.3-1.4
+                            c-0.4-0.4-1-0.7-1.3-1.3c-1.9,0.8-4.5,1.1-6.2,0.4c-0.8-0.4-1.5-1.1-2.1-1.6c-1-0.8-2.1-1.7-3.5-2c-0.4-0.1-0.8,0.1-1.1,0
+                            c-0.7-0.1-1.6-0.5-2.8-0.4c-1.2,0.1-2.5,0.6-3.4,1.1c-1.1,0.7-1.9,2.2-3.2,2.9c-0.5,0.3-1.2,0.6-1.8,0.8c-0.8,0.2-1.5-0.1-2.4,0
+                            c-0.6,0.1-1.1,0.6-1.8,0.8c-2.2,0.5-4.6-0.1-6.8-0.6c-1.1,0.7-5.7,2.7-5.6-0.5c1-0.6,2.2,0.3,3.2-0.3c-2.3-1.3-5.1,0.9-7.4,0
+                            c-0.5-0.6-1.3-1.2-0.9-2.4c1.1-0.5,1.6,0.6,2.7,0.6c0.7,0,1.4-0.5,2.3-0.6c0.6-0.1,1.5-0.2,2.3-0.3c1.9-0.2,2.9-0.2,4,0.6
+                            c0.6-0.6,1-1.3,1.9-1.5c2.6,1.3,3.4-0.5,4.5-2.3c0-0.1-0.1-0.3,0-0.4c0.6-0.6,1.6-1.6,2.3-2.3c-4.8,0.2-8.4,2.2-13.6,1.5
+                            c-0.8-0.7-2.9-1.1-2-2.7c1.5,0.1,2.1,1.3,3.9,1.4C10,5,12.4,4.2,14.9,3.8c1.1-0.2,2.2-0.4,3.3-0.6c1.2-0.2,2.4-0.3,3.4-0.5
+                            c0.5-0.1,0.9-0.4,1.4-0.5c0.4-0.1,0.9,0,1.3,0c0.6-0.1,1.2-0.3,1.8-0.4c1-0.1,2.1,0.1,3.2,0.1c0.9,0,1.8-0.3,2.7-0.4
+                            c0.6,0,1.2,0.1,1.8,0c1.2-0.1,2.7-0.8,4-1c2-0.3,4.5-0.7,7.1-0.4c1.4,0.2,2.6,0.9,4.2,1c1.7,0.1,3.6-0.5,5.3-0.5
+                            c2.2,0,3.5,1,5.4,1.9c0.6,0.8,1,1.5,2,2.3c0.8,0.6,2.6,1.1,2.7,2.1c0.1,1.1-1.4,1.8-2.9,1.6c-0.8-0.1-1.6-0.5-2.7-0.6
+                            c-1.2-0.2-2.4,0-3.3-0.3c-0.8-0.2-1.4-1-2-1.1c-1.1-0.2-2.3,0.3-2.7,1c0.3,1.4-0.1,2.6,0.6,3.4c0.5,0.5,1.9,0.6,3,0.8
+                            c1.2,0.2,2.3,0.2,3.4,0.4c1.6,0.2,2.5,1,3.7,0.9C62.2,13.3,63.3,13.9,64.6,14.5z" />
+                            </svg>
+                        </div>
+                        <div class="flex flex-col justify-center ml-4 text-white ">
+                            <div class="text-sm">Win</div>
+                            <div class="text-sm"><span>6. </span><span>Julie Bee </span><span
+                                    class="bg-green-700 border border-green-300 px-2 text-white text-sm font-semibold ml-4">3.63</span>
+                            </div>
+                            <div class="text-sm font-semibold">2024/07/24 15:09:00 ID2063</div>
+                            <div class="flex mt-1 justify-start h-8">
+                                <div
+                                    class="bg-gray-600 px-3 text-gray-100 font-bold text-lg hover:bg-gray-500 flex items-start justify-start cursor-pointer">
+                                    -
+                                </div>
+                                <input type="number" value="10"
+                                    class="border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-black text-right font-bold">
+                                <div
+                                    class="bg-gray-600 px-2 text-gray-100 font-bold text-lg hover:bg-gray-500 flex items-start justify-start cursor-pointer">
+                                    +
+                                </div>
+                            </div>
+                            <div class="flex justify-end mr-8 text-sm font-semibold">To Win: Br. <span>36.3</span></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Add more bets -->
+            <div class=" text-gray-400 text-md flex justify-center mt-2 opacity-80" id="add-more-bets-text-div">Add more
+                bets
+            </div>
+
+            <!-- Relative stake buttons  -->
+            <div class="flex px-2 gap-2 mb-1 justify-center slide-transition" id="relative-stake-buttons">
+                <div class="h-10 bg-red-400 w-16 flex justify-center items-center text-gray-100 font-bold text-lg hover:bg-red-500 cursor-pointer relative-stake-10"
+                    onclick="relativeStakeCalculator(event)">
+                    10
+                </div>
+                <div class="h-10 bg-blue-300 w-16 flex justify-center items-center text-gray-100 font-bold text-lg hover:bg-blue-500 cursor-pointer relative-stake-20"
+                    onclick="relativeStakeCalculator(event)">
+                    20
+                </div>
+                <div class="h-10 bg-yellow-500 w-16 flex justify-center items-center text-gray-100 font-bold text-lg hover:bg-yellow-700 cursor-pointer relative-stake-50"
+                    onclick="relativeStakeCalculator(event)">
+                    50
+                </div>
+                <div class="h-10 bg-green-300 w-16 flex justify-center items-center text-gray-100 font-bold text-lg hover:bg-green-500 cursor-pointer relative-stake-100"
+                    onclick="relativeStakeCalculator(event)">
+                    100
+                </div>
+                <div class="h-10 bg-blue-500 w-16 flex justify-center items-center text-gray-100 font-bold text-lg hover:bg-green-700 cursor-pointer relative-stake-200"
+                    onclick="relativeStakeCalculator(event)">
+                    200
+                </div>
+            </div>
+
+
+            <!-- General stake buttons -->
+            <div class="flex px-2 gap-2 hidden mb-1" id="general-stake-buttons-div">
+                <div class="h-12 bg-red-400 w-20 flex justify-center items-center text-gray-100 font-bold text-lg hover:bg-red-500 cursor-pointer"
+                    onclick=generalStakeCalculator(event)>
+                    10
+                </div>
+                <div class="h-12 bg-blue-300 w-20 flex justify-center items-center text-gray-100 font-bold text-lg hover:bg-blue-500 cursor-pointer"
+                    onclick=generalStakeCalculator(event)>
+                    20
+                </div>
+                <div class="h-12 bg-yellow-500 w-20 flex justify-center items-center text-gray-100 font-bold text-lg hover:bg-yellow-700 cursor-pointer"
+                    onclick=generalStakeCalculator(event)>
+                    50
+                </div>
+                <div class="h-12 bg-green-300 w-20 flex justify-center items-center text-gray-100 font-bold text-lg hover:bg-green-500 cursor-pointer"
+                    onclick=generalStakeCalculator(event)>
+                    100
+                </div>
+                <div class="h-12 bg-blue-500 w-20 flex justify-center items-center text-gray-100 font-bold text-lg hover:bg-green-700 cursor-pointer"
+                    onclick=generalStakeCalculator(event)>
+                    200
+                </div>
+            </div>
+
+            <!-- General stake input  -->
+            <div
+                class="flex flex-col justify-center items-center  general-stake-div text-gray-100 font-semibold mb-2 hidden">
+                <div class="self-start pl-9 opacity-50"> STAKE</div>
+                <div class=" flex mt-1 justify-center h-8">
+                    <div class="bg-gray-600 px-3 text-gray-100 font-bold text-lg hover:bg-gray-500 flex items-start justify-start cursor-pointer"
+                        onclick="updateGeneralStakeInput(event)" data-value="minus">
+                        -</div>
+                    <input type="number"
+                        class="border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-black text-right font-bold general-stake-input"
+                        oninput="generatStakeInputInput(event)" onchange="generatStakeInputInput(event)"
+                        onclick="selectGeneralStakeInputContent(event)" value="10" min="10">
+                    <div class="bg-gray-600 px-2 text-gray-100font-bold text-lg hover:bg-gray-500 flex items-start justify-start cursor-pointer"
+                        onclick="updateGeneralStakeInput(event)" data-value="plus">
+                        +</div>
+                </div>
+            </div>
+
+            <!-- Total win -->
+            <div class="h-16 flex flex-col justify-between items-between px-2 hidden" id="total-stake-total-win-div">
+                <div class="text-gray-200 font-semibold flex justify-between ">
+                    <div>TOTAL STAKE</div>
+                    <div class="total-stake">Br. 10</div>
+                </div>
+                <div class="text-gray-200 font-semibold flex justify-between text-lg font-bold">
+                    <div>TOTAL "TO WIN"</div>
+                    <div class="total-win-amount">Br. 10</div>
+                </div>
+            </div>
+
+            <!-- clear and print buttons  -->
+            <div class="h-14 mt-5 flex gap-1 p-1">
+                <div class="bg-red-300 w-3/12 flex justify-center items-center py-2 px-4 text-white font-semibold hover:bg-red-500 opacity-50 cursor-not-allowed pointer-events-none"
+                    id="clear-selections" onclick="clearAllSelections()">
+                    CLEAR
+                </div>
+                <div class="bg-green-500 w-9/12 flex justify-center items-center py-2 px-4 text-white font-semibold hover:bg-green-700 opacity-50 cursor-not-allowed pointer-events-none"
+                    id="print-selections">
+                    PLACE
+                    BET</div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src=" ./js/responsive-navbar.js">
+    </script>
+    <script src="./js/tabs.js"></script>
+    <script>
+
+        let currentInput = null;
+
+        const arr = [
+            // {
+            //     w1: '16.36', w2: '8.23', w3: '9.16', w4: '2.33', w5: '3.98.36', w6: '11.45'
+            // }
+            16.36, 8.23, 9.16, 2.33, 3.98, 11.45
+        ]
+        const sortedNumbers = [...arr].sort((a, b) => a - b);
+        const smallestThree = sortedNumbers.slice(0, 3);
+        let data = null;
+        // console.log(data)
+        async function fetchData() {
+            try {
+                const response = await fetch('/data');
+                data = await response.json();
+                console.log(data)
+                return data;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+        // fetchData()
+
+        const arr2 = [
+            'Positively Platnum', 'Amazing Grace', 'Halo Again', 'Plus Four', 'Fuerte', 'Figure Eight'
+        ]
+
+        async function createOneGameAccordion(i) {
+            const data = await fetchData()
+            const dogContainer = document.querySelector('.dog-container')
+            data.forEach((item, index) => {
+
+
+                // Accordion
+                const accordion = document.createElement('div')
+                accordion.className = 'accordion-item bg-gray-900 rounded shadow-md mb-2';
+                accordion.id = `game-${item.game}`
+                // Accordion Header
+                const accordionHeader = document.createElement('div')
+                index == 0 ? accordionHeader.className = 'accordion-header flex justify-between items-center p-1 cursor-pointer text-white bg-green-500 transition-all duration-500 ease-in-out' : accordionHeader.className = 'accordion-header flex justify-between items-center p-1 cursor-pointer text-white transition-all duration-500 ease-in-out'
+                const headerDiv1 = document.createElement('div')
+                headerDiv1.className = 'flex items-center'
+                const headerDiv1Div1 = document.createElement('div')
+                headerDiv1Div1.className = 'flex flex-col'
+                const timer = document.createElement('span')
+                index == 0 ? timer.className = 'bg-yellow-200 rounded text-red-700 flex justify-center items-center' : timer.className = 'bg-yellow-200 rounded text-red-700 flex justify-center items-center hidden'
+                timer.textContent = '2:03'
+                const gameTime = document.createElement('h2')
+                gameTime.className = 'text-lg font-semibold mr-2'
+                gameTime.textContent = '17:51'
+                const headerDiv1Div2 = document.createElement('div')
+                headerDiv1Div2.className = 'flex flex-col'
+                const headerDiv1Div2Div1 = document.createElement('div')
+                headerDiv1Div2Div1.className = 'font-semibold'
+                headerDiv1Div2Div1.textContent = 'CRAWFORD PARK (DAY) 720'
+                const headerDiv1Div2Div2 = document.createElement('div')
+                headerDiv1Div2Div2.className = 'font-semibold'
+                headerDiv1Div2Div2.textContent = `ID ${item.game}`
+                const closeBtn = document.createElement('button')
+                closeBtn.className = 'toggle-btn text-3xl font-bold'
+                index == 0 ? closeBtn.textContent = '-' : closeBtn.textContent = '+'
+
+                // Accordion content
+                const accordionContent = document.createElement('div')
+                index == 0 ? accordionContent.className = 'accordion-content open px-4 pb-1' : accordionContent.className = 'accordion-content px-4 pb-1'
+                const width75 = document.createElement('div')
+                width75.className = 'width-75'
+                const contentDiv1 = document.createElement('div')
+                contentDiv1.className = 'grid gap-4 items-center my-1 text-white custom-grid'
+                contentDiv1Div1 = document.createElement('div')
+                contentDiv1Div1.className = 'text-center w-10'
+                contentDiv1Div2 = document.createElement('div')
+                contentDiv1Div2.className = 'flex items-center text-center'
+                contentDiv1Div3 = document.createElement('div')
+                contentDiv1Div4 = document.createElement('div')
+                contentDiv1Div4.className = 'flex items-center text-center justify-center h-8 w-14 text-white'
+                contentDiv1Div4.textContent = 'Win'
+                contentDiv1Div5 = document.createElement('div')
+                contentDiv1Div5.className = 'flex items-center text-center justify-center h-8 w-14 text-white'
+                contentDiv1Div5.textContent = 'Place'
+                contentDiv1Div6 = document.createElement('div')
+                contentDiv1Div6.className = 'flex items-center text-center justify-center h-8 w-14 text-white'
+                contentDiv1Div6.textContent = 'Combo'
+                contentDiv1Div7 = document.createElement('div')
+                contentDiv1Div7.className = 'flex items-center text-center'
+
+                contentDiv1.appendChild(contentDiv1Div1)
+                contentDiv1.appendChild(contentDiv1Div2)
+                contentDiv1.appendChild(contentDiv1Div3)
+                contentDiv1.appendChild(contentDiv1Div4)
+                contentDiv1.appendChild(contentDiv1Div5)
+                contentDiv1.appendChild(contentDiv1Div6)
+                contentDiv1.appendChild(contentDiv1Div7)
+                width75.appendChild(contentDiv1)
+
+
+                const winValues = [];
+                for (let i = 1; i <= 8; i++) {
+                    winValues.push({ value: parseFloat(item[`w${i}`]), index: i });
+                }
+
+                winValues.sort((a, b) => a.value - b.value);
+
+                const smallestWins = winValues.slice(0, 3);
+
+                for (var contestants = 1; contestants < item.runners + 1; contestants++) {
+                    // data.forEach(item =>{
+                    const contentDiv2 = document.createElement('div')
+                    contentDiv2.className = 'grid gap-4 items-center my-1 text-white custom-grid'
+                    const contentDiv2Div1 = document.createElement('div')
+                    contentDiv2Div1.className = 'text-center w-10'
+                    const img = document.createElement('img')
+                    img.src = `./images/dog/${contestants}.png`
+                    const contentDiv2Div2 = document.createElement('div')
+                    contentDiv2Div2.className = 'flex items-center text-center'
+                    contentDiv2Div2.textContent = `${item[`name${contestants}`]}`
+                    contentDiv2Div2.id = `dog-win-${contestants}-name`
+                    const contentDiv2Div3 = document.createElement('div')
+                    contentDiv2Div3.className = 'flex items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white'
+                    if (contestants === smallestWins[0].index) {
+                        contentDiv2Div3.textContent = 'F1'
+                    } else if (contestants === smallestWins[1].index) {
+                        contentDiv2Div3.textContent = 'F2'
+                    } else if (contestants === smallestWins[2].index) {
+                        contentDiv2Div3.textContent = 'F3'
+                    } else {
+                        contentDiv2Div3.textContent = ''
+                        contentDiv2Div3.classList.remove('bg-yellow-500')
+                    }
+
+
+                    const contentDiv2Div4 = document.createElement('div')
+                    contentDiv2Div4.className = 'flex items-center text-center bg-yellow-200  justify-center h-8 w-14 text-gray-800 font-semibold rounded hover:bg-green-400 cursor-pointer dog-win'
+                    contentDiv2Div4.textContent = `${item[`w${contestants}`]}`
+                    // console.log(`${item[`w${contestants}`]}`)
+                    contentDiv2Div4.id = `dog-win-${contestants}`
+                    contentDiv2Div4.setAttribute('data-number', contestants)
+                    contentDiv2Div4.setAttribute('data-game', `${item.game}`)
+                    const contentDiv2Div5 = document.createElement('div')
+                    contentDiv2Div5.className = 'flex items-center text-center bg-yellow-200  justify-center h-8 w-14 text-gray-800 font-semibold rounded hover:bg-green-400 cursor-pointer dog-place'
+                    contentDiv2Div5.textContent = `${item[`p${contestants}`]}`
+                    contentDiv2Div5.setAttribute('data-number', contestants)
+                    contentDiv2Div5.setAttribute('data-game', `${item.game}`)
+                    const contentDiv2Div6 = document.createElement('div')
+                    contentDiv2Div6.className = 'flex items-center text-center bg-gray-700  justify-center h-8 w-14 text-gray-200 font-semibold rounded hover:bg-gray-500 cursor-pointer '
+                    contentDiv2Div6.textContent = `${contestants}`
+                    const contentDiv2Div7 = document.createElement('div')
+                    contentDiv2Div7.className = 'flex items-center text-center'
+
+                    contentDiv2Div1.appendChild(img)
+                    contentDiv2.appendChild(contentDiv2Div1)
+                    contentDiv2.appendChild(contentDiv2Div2)
+                    contentDiv2.appendChild(contentDiv2Div3)
+                    contentDiv2.appendChild(contentDiv2Div4)
+                    contentDiv2.appendChild(contentDiv2Div5)
+                    contentDiv2.appendChild(contentDiv2Div6)
+                    contentDiv2.appendChild(contentDiv2Div7)
+                    width75.appendChild(contentDiv2)
+                }
+                headerDiv1Div1.appendChild(timer)
+                headerDiv1Div1.appendChild(gameTime)
+                headerDiv1.appendChild(headerDiv1Div1)
+                headerDiv1Div2.appendChild(headerDiv1Div2Div1)
+                headerDiv1Div2.appendChild(headerDiv1Div2Div2)
+                headerDiv1.appendChild(headerDiv1Div2)
+                accordionHeader.appendChild(headerDiv1)
+                accordionHeader.appendChild(closeBtn)
+                accordion.appendChild(accordionHeader)
+                accordionContent.appendChild(width75)
+                accordion.appendChild(accordionContent)
+
+                dogContainer.appendChild(accordion)
+            })
+            accordionAction()
+            createTickets()
+        }
+
+        // for (var i = 0; i < 5; i++) {
+        createOneGameAccordion()
+        // }
+
+        let dataGameChecker = null
+
+        function createTickets() {
+            const dogWin = document.querySelectorAll('.dog-win');
+            dogWin.forEach(dog => {
+                dog.addEventListener('click', () => {
+                    if (!dataGameChecker || dataGameChecker == dog.getAttribute('data-game')) {
+                        dog.classList.toggle("selected");
+                        if (dog.classList.contains('selected')) {
+                            const stakeDiv = document.createElement('div');
+                            stakeDiv.className = 'bg-gray-800 h-30 rounded p-1 relative mb-1 selected-item';
+                            stakeDiv.id = 'dog-' + dog.id;
+                            const xIcon = document.createElement('i')
+                            xIcon.className = 'fa-solid fa-xmark text-gray-100 text-2xl absolute top-1 right-2 hover:text-gray-400 cursor-pointer'
+                            const div1 = document.createElement('div')
+                            div1.className = 'flex flex-col justify-center ml-4 text-white'
+                            const winText = document.createElement('div')
+                            winText.className = 'text-sm'
+                            winText.textContent = 'Win'
+                            const numNameOddText = document.createElement('div')
+                            numNameOddText.className = 'text-sm'
+                            const num = document.createElement('span')
+                            num.textContent = `${dog.getAttribute('data-number')}. `
+                            const name = document.createElement('span')
+                            name.textContent = document.getElementById(`${dog.id}-name`).textContent
+                            const odd = document.createElement('span')
+                            odd.textContent = dog.textContent
+                            odd.className = 'bg-green-700 border border-green-300 px-2 text-white text-sm font-semibold ml-4 dog-win-odd'
+                            numNameOddText.appendChild(num)
+                            numNameOddText.appendChild(name)
+                            numNameOddText.appendChild(odd)
+                            const time = document.createElement('div')
+                            time.className = 'text-sm font-semibold'
+                            time.textContent = `2024/07/24 15:09:00 ID${dog.getAttribute('data-game')}`
+                            const div2 = document.createElement('div')
+                            div2.className = 'flex mt-1 justify-start h-8'
+                            const div3 = document.createElement('div')
+                            div3.className = 'bg-gray-600 px-3 text-gray-100 font-bold text-lg hover:bg-gray-500 flex items-start justify-start cursor-pointer'
+                            div3.textContent = '-'
+                            div3.addEventListener('click', () => {
+                                input.value = parseInt(input.value) - 10;
+                                input.select()
+                                winAmount.textContent = `${(parseFloat(odd.textContent) * parseFloat(input.value)).toFixed(2)}`
+                                totalStakeCalculator()
+                                totalWinCalculator()
+
+                                if (input.value < 10) {
+                                    input.value = 10;
+                                    input.select()
+                                }
+                            })
+                            const div4 = document.createElement('div')
+                            div4.className = 'bg-gray-600 px-2 text-gray-100font-bold text-lg hover:bg-gray-500 flex items-start justify-start cursor-pointer'
+                            div4.textContent = '+'
+                            div4.addEventListener('click', () => {
+
+                                input.value = parseInt(input.value) + 10;
+                                input.select()
+                                winAmount.textContent = `${(parseFloat(odd.textContent) * parseFloat(input.value)).toFixed(2)}`
+                                totalStakeCalculator()
+                                totalWinCalculator()
+
+                                if (input.value > 1000) {
+                                    input.classList.add('bg-red-500', 'text-gray-100')
+                                    input.select()
+                                }
+                            })
+                            const input = document.createElement('input')
+                            input.type = 'number'
+                            input.value = '10'
+                            input.className = 'border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-black text-right font-bold stake-input'
+                            input.onclick = createRelativeStakeButtons
+                            input.addEventListener('input', () => {
+                                if (input.value == '') {
+                                    input.value = 10;
+                                }
+                                winAmount.textContent = `${(parseFloat(odd.textContent) * parseFloat(input.value)).toFixed(2)}`
+                            })
+                            div2.appendChild(div3)
+                            div2.appendChild(input)
+                            div2.appendChild(div4)
+                            const winAmountDiv = document.createElement('div')
+                            winAmountDiv.className = 'flex justify-end mr-8 text-sm font-semibold '
+                            winAmountDiv.textContent = 'To Win:';
+
+                            const winAmount = document.createElement('span');
+                            winAmount.className = 'win-amount-span'
+                            winAmount.textContent = `${(parseFloat(odd.textContent) * parseFloat(input.value)).toFixed(2)}`
+                            winAmountDiv.appendChild(winAmount)
+
+                            div1.appendChild(winText)
+                            div1.appendChild(numNameOddText)
+                            div1.appendChild(time)
+                            div1.appendChild(div2)
+                            div1.appendChild(winAmountDiv)
+                            stakeDiv.appendChild(xIcon)
+                            stakeDiv.appendChild(div1)
+
+                            xIcon.addEventListener("click", () => {
+                                // stakeDiv.remove();
+                                removeStakeDivxIcon(xIcon)
+                                dog.classList.remove("selected");
+                                changeDynamicTicketElementsState()
+                                totalStakeCalculator()
+                                generalStakeInput()
+                                totalWinCalculator()
+                                if (document.querySelectorAll(".selected-item").length == 0) {
+                                    dataGameChecker = null
+
+                                }
+                            });
+
+                            document.getElementById('dynamic-tickets-div').appendChild(stakeDiv)
+
+                            dataGameChecker = dog.getAttribute('data-game')
+
+                        } else {
+                            const spans = document.querySelectorAll(".selected-item");
+                            for (let i = 0; i < spans.length; i++) {
+                                if (spans[i].id === ('dog-' + dog.id)) {
+                                    spans[i].remove();
+                                    break;
+                                }
+                            }
+                            if (document.querySelectorAll(".selected-item").length == 0) {
+                                dataGameChecker = null
+                            }
+                        }
+                    }
+                    changeDynamicTicketElementsState()
+                    totalStakeCalculator()
+                    totalWinCalculator()
+
+                    generalStakeInput()
+
+
+                })
+            })
+        }
+        function changeDynamicTicketElementsState() {
+            const selectedItems = document.querySelectorAll('.selected-item')
+            const generalStakeButtons = document.getElementById('general-stake-buttons-div')
+            const totalStakeTotalWin = document.getElementById('total-stake-total-win-div')
+            const clearSelections = document.getElementById('clear-selections')
+            const printSelections = document.getElementById('print-selections')
+            const addMoreBetsDiv = document.getElementById('add-more-bets-text-div')
+            if (selectedItems.length > 0) {
+                generalStakeButtons.classList.remove('hidden')
+                totalStakeTotalWin.classList.remove('hidden')
+                addMoreBetsDiv.classList.add('hidden')
+                printSelections.classList.remove('opacity-50', 'cursor-not-allowed', 'pointer-events-none')
+                clearSelections.classList.remove('opacity-50', 'cursor-not-allowed', 'pointer-events-none')
+                printSelections.classList.add('cursor-pointer')
+                clearSelections.classList.add('cursor-pointer')
+            }
+
+
+            else {
+                generalStakeButtons.classList.add('hidden')
+                totalStakeTotalWin.classList.add('hidden')
+                addMoreBetsDiv.classList.remove('hidden')
+                printSelections.classList.add('opacity-50', 'cursor-not-allowed', 'pointer-events-none')
+                clearSelections.classList.add('opacity-50', 'cursor-not-allowed', 'pointer-events-none')
+            }
+        }
+
+        function generalStakeInput() {
+            const selectedItems = document.querySelectorAll('.selected-item')
+            const generalStakeDiv = document.querySelector('.general-stake-div')
+            if (selectedItems.length > 1) {
+                generalStakeDiv.classList.remove('hidden')
+            } else {
+                generalStakeDiv.classList.add('hidden')
+
+            }
+        }
+
+        function clearGeneralStakeInput() {
+            document.querySelector('.general-stake-input').value = 10
+        }
+
+        function createRelativeStakeButtons(event) {
+            const selectedItems = document.querySelectorAll('.selected-item')
+            currentInput = event.target;
+            if (selectedItems.length == 1) {
+                // Do nothing
+                currentInput.select()
+
+            } else {
+
+                const parentDiv = event.target.parentElement;
+                const relativeStakeDiv = document.getElementById('relative-stake-buttons');
+                const parentDiv1 = parentDiv.parentElement;
+                const parentDiv2 = parentDiv1.parentElement;
+
+                currentInput.select()
+
+                if (relativeStakeDiv.parentElement !== parentDiv2) {
+                    relativeStakeDiv.classList.remove('show');
+                    relativeStakeDiv.parentElement.removeChild(relativeStakeDiv);
+                    // }
+                    parentDiv2.appendChild(relativeStakeDiv);
+                    relativeStakeDiv.classList.add('show');
+                }
+            }
+        }
+
+        function relativeStakeCalculator(e) {
+            const addStake = e.target.textContent;
+            const currentStake = currentInput.value;
+            currentInput.value = parseInt(addStake) + parseInt(currentStake)
+            totalStakeCalculator()
+            updateWinAmountEach()
+            totalWinCalculator()
+        }
+
+        function generalStakeCalculator(e) {
+            const stakeInputs = document.querySelectorAll('.stake-input')
+            const addStake = e.target.textContent;
+            stakeInputs.forEach(stakeInput => {
+                const currentStake = stakeInput.value;
+                stakeInput.value = parseInt(addStake) + parseInt(currentStake)
+            })
+            const generalStakeInput = document.querySelector('.general-stake-input')
+            generalStakeInput.value = parseInt(generalStakeInput.value) + parseInt(addStake)
+            totalStakeCalculator()
+            updateWinAmountEach()
+            totalWinCalculator()
+        }
+
+        function generatStakeInputInput(e) {
+            const stakeInputs = document.querySelectorAll('.stake-input')
+            if (e.target.value == '' || e.target.value == 0) {
+                e.target.value = 10;
+            }
+            stakeInputs.forEach(stakeInput => {
+                const addStake = e.target.value;
+                const currentStake = stakeInput.value;
+                stakeInput.value = parseInt(addStake)
+            })
+            totalStakeCalculator()
+            updateWinAmountEach()
+            totalWinCalculator()
+
+        }
+
+        function updateGeneralStakeInput(e) {
+            const val = e.target.getAttribute('data-value')
+            const curVal = document.querySelector('.general-stake-input')
+            if (val == 'plus') {
+                curVal.value = parseInt(curVal.value) + 10
+                if (curVal.value > 1000) {
+                    curVal.classList.add('bg-red-500', 'text-gray-100')
+                }
+                // alert(asd)
+            } else if (val == 'minus') {
+                curVal.value = parseInt(curVal.value) - 10
+                if (curVal.value <= 10) {
+                    curVal.value = 10
+                }
+
+
+            }
+            updateGeneralStakeInputCustom()
+            totalStakeCalculator()
+            updateWinAmountEach()
+            totalWinCalculator()
+            // alert(val)
+        }
+
+        function updateGeneralStakeInputCustom() {
+            const inputs = document.querySelectorAll('.stake-input')
+            const curVal = document.querySelector('.general-stake-input')
+
+            inputs.forEach(input => {
+                const addStake = curVal.value;
+                const currentStake = input.value;
+                input.value = parseInt(addStake)
+            })
+        }
+
+        function totalStakeCalculator() {
+            const stakeInputs = document.querySelectorAll('.stake-input')
+            var totalStake = 0;
+            stakeInputs.forEach(stakeInput => {
+                const currentStake = stakeInput.value;
+                totalStake += parseInt(currentStake)
+            })
+            document.querySelector('.total-stake').textContent = `Br. ${totalStake}.00`
+        }
+
+        function clearAllSelections() {
+            const selectedItems = document.querySelectorAll('.selected-item')
+            const relativeStakeDiv = document.getElementById('relative-stake-buttons');
+            dataGameChecker = null
+            selectedItems.forEach(item => {
+
+                if (item.contains(relativeStakeDiv)) {
+                    relativeStakeDiv.classList.remove('show')
+                    relativeStakeDiv.parentElement.removeChild(relativeStakeDiv);
+                    document.body.appendChild(relativeStakeDiv)
+                    currentInput = null;
+                    // alert('true')
+                }
+                item.remove()
+            })
+            const dogs = document.querySelectorAll('.selected')
+            dogs.forEach(dog => {
+                dog.classList.remove('selected')
+            })
+            changeDynamicTicketElementsState()
+            totalStakeCalculator()
+            totalWinCalculator()
+            generalStakeInput()
+            clearGeneralStakeInput()
+        }
+
+        function selectGeneralStakeInputContent(e) {
+            const input = e.target;
+            input.select();
+        }
+
+        function updateWinAmountEach() {
+            const selectedItems = document.querySelectorAll('.selected-item')
+            selectedItems.forEach(selectedItem => {
+                const input = selectedItem.querySelector('.stake-input')
+                const odd = selectedItem.querySelector('.dog-win-odd')
+                const win = selectedItem.querySelector('.win-amount-span')
+                win.textContent = (parseFloat(input.value) * parseFloat(odd.textContent)).toFixed(2)
+                // console.log(input, '...', win)
+            })
+        }
+
+        function totalWinCalculator() {
+            // const selectedItems = document.querySelectorAll('.selected-item')
+            var sum = 0;
+            const wins = document.querySelectorAll('.win-amount-span');
+            const totalWinAmount = document.querySelector('.total-win-amount')
+            wins.forEach(win => {
+                sum = (parseFloat(sum) + parseFloat(win.textContent)).toFixed(2)
+                // console.log(input, '...', win)
+            })
+            totalWinAmount.textContent = `Br. ${sum}`
+        }
+
+        function removeStakeDivxIcon(button) {
+            // alert('removed')
+            const inputContainer = document.getElementById('dynamic-tickets-div');
+            const inputWrapper = button.parentElement;
+            const relativeStakeDiv = document.getElementById('relative-stake-buttons');
+
+            if (inputWrapper.contains(relativeStakeDiv)) {
+                relativeStakeDiv.classList.remove('show')
+                relativeStakeDiv.parentElement.removeChild(relativeStakeDiv);
+                document.body.appendChild(relativeStakeDiv)
+                currentInput = null;
+                // alert('true')
+            }
+            // else {
+            //     alert('false')
+            // }
+            inputContainer.removeChild(inputWrapper);
+        }
+
+    </script>
+    <script src="./js/accordion.js"></script>
+
+</body>
+
+</html>

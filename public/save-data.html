@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+
+    <title>Admin</title>
+</head>
+
+<body class="bg-gray-800 py-5 ">
+
+
+
+</body>
+<script>
+    var html = ''
+    html += `
+    <div class="mb-2">
+<button class="bg-green-500 hover:bg-green-700 px-5 text-gray-100 text-lg font-semibold cursor-pointer"
+        onclick="pasteName()">Paste names</button>
+    <button class="bg-green-500 hover:bg-green-700 px-5 text-gray-100 text-lg font-semibold cursor-pointer"
+        onclick="pasteOdd()">Paste odds</button>
+</div>
+    `
+    html += `<form action="/submit" method="post" class="flex flex-col items-center">
+        <div class="mb-2 w-40">
+            <label class="text-lg font-semibold text-gray-100">Game ID:</label>
+            <input type=" text" name="gameid" class="rounded h-10 text-center text-lg font-semibold w-16 ml-2">
+        </div>
+        <div class="w-38">
+            <label class="text-lg font-semibold text-gray-100">Runners:</label>
+            <input type=" text" name="runners"  class="rounded h-10 text-center text-lg font-semibold w-16 ml-2">
+        </div>
+        <div class="container flex justify-center items-between pt-2 gap-5">
+            <div class="text-2xl text-gray-100 font-semibold h-10 w-5"></div>
+            <div class=" h-10 w-40 flex justify-center text-gray-100">
+                NAME
+            </div>
+            <div class=" h-10 w-16 flex justify-center text-gray-100">
+                WIN
+            </div>
+            <div class=" h-10 w-16 flex justify-center text-gray-100">
+                PLACE
+            </div>
+        </div>`
+    for (var i = 1; i < 9; i++) {
+        html += `
+<div class="container flex justify-center items-between pt-2 gap-5">
+            <div class="text-2xl text-gray-100 font-semibold h-10 w-5">${i}</div>
+            <div class=" h-10">
+                <input type="text" class="w-40 h-8 rounded text-center text-lg font-semibold text-gray-800" name="name${i}"  id='name${i}'>
+            </div>
+            <div class=" h-10">
+                <input type="text" class="w-16 h-8 rounded text-center text-lg font-semibold text-gray-800" name="win${i}" id='win${i}'>
+            </div>
+            <div class=" h-10">
+                <input type="text" class="w-16 h-8 rounded text-center text-lg font-semibold text-gray-800" name="place${i}" id='place${i}'>
+            </div>
+        </div>
+`;
+    }
+
+    html += ` <button class="bg-green-500 hover:bg-green-700 px-4 text-gray-100 font-semibold text-lg mt-2"
+        name="submit">Submit</button>
+    </form>`
+
+    document.body.innerHTML = html
+
+
+    async function pasteOdd() {
+        try {
+            // Read text from clipboard
+            const text = await navigator.clipboard.readText();
+
+            // Split the text by newlines
+            const lines = text.split('\n');
+            console.log(lines)
+
+            if (lines.length == 12) {
+                console.log("asd")
+                for (let i = 0; i < 6; i++) {
+                    const winDiv = document.getElementById(`win${i + 1}`);
+                    if (winDiv && lines[i]) {
+                        winDiv.value = lines[i];
+                    }
+                }
+
+                // Update the place divs
+                for (let i = 6; i < 12; i++) {
+                    const placeDiv = document.getElementById(`place${i - 5}`);
+                    if (placeDiv && lines[i]) {
+                        placeDiv.value = lines[i];
+                    }
+                }
+            } else if (lines.length == 16) {
+                for (let i = 0; i < 8; i++) {
+                    const winDiv = document.getElementById(`win${i + 1}`);
+                    if (winDiv && lines[i]) {
+                        winDiv.value = lines[i];
+                    }
+                }
+
+                // Update the place divs
+                for (let i = 8; i < 16; i++) {
+                    const placeDiv = document.getElementById(`place${i - 7}`);
+                    if (placeDiv && lines[i]) {
+                        placeDiv.value = lines[i];
+                    }
+                }
+            }
+            // const lineDiv = document.createElement('div');
+            // lineDiv.className = 'paste-item';
+            // lineDiv.textContent = lines[i];
+            // container.appendChild(lineDiv);
+
+            // }
+        } catch (err) {
+            console.error('Failed to read clipboard contents: ', err);
+        }
+    }
+
+    async function pasteName() {
+        try {
+            // Read text from clipboard
+            const text = await navigator.clipboard.readText();
+
+            // Split the text by newlines
+            const lines = text.split('\n');
+            console.log(lines)
+
+            for (var i = 0; i < lines.length; i++) {
+                document.getElementById(`name${i + 1}`).value = lines[i]
+            }
+
+
+        } catch (err) {
+            console.error('Failed to read clipboard contents: ', err);
+        }
+    }
+
+
+</script>
+
+</html>

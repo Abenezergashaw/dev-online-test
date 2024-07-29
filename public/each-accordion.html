@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Document</title>
+    <style>
+        .active {
+            color: #10B981;
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .accordion-content.open {
+            max-height: 500px;
+            /* Adju
+            st as needed */
+        }
+
+        .width-75 {
+            width: 85%;
+        }
+
+        .custom-grid {
+            grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="accordion-item bg-gray-900 rounded shadow-md mb-2 hidden">
+        <div class="accordion-header flex justify-between items-center p-1 cursor-pointer text-white bg-gray-500">
+            <div class="flex items-center">
+                <div class="flex flex-col">
+                    <span class="bg-yellow-200 rounded text-red-7
+                        00 flex justify-center items-center">2:03</span>
+                    <h2 class="text-lg font-semibold mr-2">17:51</h2>
+                </div>
+                <div class="flex flex-col">
+                    <div class="font-semibold">
+                        CRAWFORD PARK (DAY) 720
+                    </div>
+                    <div class="font-semibold">
+                        ID 2096
+                    </div>
+                </div>
+            </div>
+            <button class="toggle-btn text-3xl font-bold">+</button>
+        </div>
+        <div class="accordion-content open px-4">
+            <div class="width-75">
+                <div class="grid gap-4 items-center my-1 text-white"
+                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                    <div class=" text-center w-10">
+
+                    </div>
+                    <div class="flex 
+                   items-center text-center"></div>
+                    <div class="">
+                    </div>
+                    <div class="flex 
+                   items-center text-center justify-center  h-8 w-14 text-white ">
+                        Win</div>
+                    <div class="flex 
+                   items-center text-center justify-center h-8 w-14 text-white ">
+                        Place</div>
+                    <div class="flex 
+                   items-center text-center  justify-center h-8 w-14 ">
+                        Combo</div>
+                    <div class="flex 
+                   items-center text-center"></div>
+                </div>
+                <div class="grid gap-4 items-center my-1 text-white"
+                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                    <div class=" text-center w-10">
+                        <img src="./images/dog/1.png">
+                    </div>
+                    <div class="flex 
+                   items-center text-center">Juliebee</div>
+                    <div class="flex 
+                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                        F1</div>
+                    <div class="flex 
+                   items-center text-center bg-yellow-200  justify-center h-8 w-14 text-gray-800 font-semibold rounded hover:bg-green-700 cursor-pointer dog"
+                        id="dog-win-1">
+                        2.66</div>
+                    <div
+                        class="flex 
+                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                        1.45</div>
+                    <div
+                        class="flex 
+                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                        1</div>
+                    <div class="flex 
+                   items-center text-center"></div>
+                </div>
+                <div class="grid gap-4 items-center my-1 text-white"
+                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                    <div class=" text-center w-10">
+                        <img src="./images/dog/2.png">
+                    </div>
+                    <div class="flex 
+                   items-center text-center">Juliebee</div>
+                    <div class="flex 
+                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                        F1</div>
+                    <div class="flex 
+                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer dog"
+                        id="dog-win-2">
+                        2.66</div>
+                    <div
+                        class="flex 
+                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                        1.45</div>
+                    <div
+                        class="flex 
+                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                        2</div>
+                    <div class="flex 
+                   items-center text-center"></div>
+                </div>
+                <div class="grid gap-4 items-center my-1 text-white"
+                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                    <div class=" text-center w-10">
+                        <img src="./images/dog/3.png">
+                    </div>
+                    <div class="flex 
+                   items-center text-center">Juliebee</div>
+                    <div class="flex 
+                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                        F1</div>
+                    <div class="flex 
+                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer dog"
+                        id="dog-win-3">
+                        2.66</div>
+                    <div
+                        class="flex 
+                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                        1.45</div>
+                    <div
+                        class="flex 
+                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                        3</div>
+                    <div class="flex 
+                   items-center text-center"></div>
+                </div>
+                <div class="grid gap-4 items-center my-1 text-white"
+                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                    <div class=" text-center w-10">
+                        <img src="./images/dog/4.png">
+                    </div>
+                    <div class="flex 
+                   items-center text-center">Juliebee</div>
+                    <div class="flex 
+                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                        F1</div>
+                    <div class="flex 
+                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer dog"
+                        id="dog-win-4">
+                        2.66</div>
+                    <div
+                        class="flex 
+                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                        1.45</div>
+                    <div
+                        class="flex 
+                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                        4</div>
+                    <div class="flex 
+                   items-center text-center"></div>
+                </div>
+                <div class="grid gap-4 items-center my-1 text-white"
+                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                    <div class=" text-center w-10">
+                        <img src="./images/dog/5.png">
+                    </div>
+                    <div class="flex 
+                   items-center text-center">Juliebee</div>
+                    <div class="flex 
+                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                        F1</div>
+                    <div class="flex 
+                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer dog"
+                        id="dog-win-5">
+                        2.66</div>
+                    <div
+                        class="flex 
+                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                        1.45</div>
+                    <div
+                        class="flex 
+                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                        5</div>
+                    <div class="flex 
+                   items-center text-center"></div>
+                </div>
+                <div class="grid gap-4 items-center my-1 text-white"
+                    style=" grid-template-columns: 10% 30% 5% 10% 10% 10% 25%;">
+                    <div class=" text-center w-10">
+                        <img src="./images/dog/6.png">
+                    </div>
+                    <div class="flex 
+                   items-center text-center">Juliebee</div>
+                    <div class="flex 
+                   items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white">
+                        F1</div>
+                    <div class="flex 
+                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer dog"
+                        id="dog-win-6">
+                        2.66</div>
+                    <div
+                        class="flex 
+                   items-center text-center bg-green-500 justify-center h-8 w-14 text-white rounded hover:bg-green-700 cursor-pointer">
+                        1.45</div>
+                    <div
+                        class="flex 
+                   items-center text-center bg-gray-200 justify-center h-8 w-14 text-black rounded hover:bg-gray-400 hover:text-gray-100 cursor-pointer border-2  border-black">
+                        6</div>
+                    <div class="flex 
+                   items-center text-center"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        function createOneGameAccordion(i) {
+            // Accordion
+            const accordion = document.createElement('div')
+            accordion.className = 'accordion-item bg-gray-900 rounded shadow-md mb-2';
+
+            // Accordion Header
+            const accordionHeader = document.createElement('div')
+            i == 0 ? accordionHeader.className = 'accordion-header flex justify-between items-center p-1 cursor-pointer text-white bg-green-500 transition-all duration-500 ease-in-out' : accordionHeader.className = 'accordion-header flex justify-between items-center p-1 cursor-pointer text-white transition-all duration-500 ease-in-out'
+            const headerDiv1 = document.createElement('div')
+            headerDiv1.className = 'flex items-center'
+            const headerDiv1Div1 = document.createElement('div')
+            headerDiv1Div1.className = 'flex flex-col'
+            const timer = document.createElement('span')
+            i == 0 ? timer.className = 'bg-yellow-200 rounded text-red-700 flex justify-center items-center' : timer.className = 'bg-yellow-200 rounded text-red-700 flex justify-center items-center hidden'
+            timer.textContent = '2:03'
+            const gameTime = document.createElement('h2')
+            gameTime.className = 'text-lg font-semibold mr-2'
+            gameTime.textContent = '17:51'
+            const headerDiv1Div2 = document.createElement('div')
+            headerDiv1Div2.className = 'flex flex-col'
+            const headerDiv1Div2Div1 = document.createElement('div')
+            headerDiv1Div2Div1.className = 'font-semibold'
+            headerDiv1Div2Div1.textContent = 'CRAWFORD PARK (DAY) 720'
+            const headerDiv1Div2Div2 = document.createElement('div')
+            headerDiv1Div2Div2.className = 'font-semibold'
+            headerDiv1Div2Div2.textContent = 'ID 2096'
+            const closeBtn = document.createElement('button')
+            closeBtn.className = 'toggle-btn text-3xl font-bold'
+            i == 0 ? closeBtn.textContent = '-' : closeBtn.textContent = '+'
+
+            // Accordion content
+            const accordionContent = document.createElement('div')
+            i == 0 ? accordionContent.className = 'accordion-content open px-4 pb-1' : accordionContent.className = 'accordion-content px-4 pb-1'
+            const width75 = document.createElement('div')
+            width75.className = 'width-75'
+            const contentDiv1 = document.createElement('div')
+            contentDiv1.className = 'grid gap-4 items-center my-1 text-white custom-grid'
+            contentDiv1Div1 = document.createElement('div')
+            contentDiv1Div1.className = 'text-center w-10'
+            contentDiv1Div2 = document.createElement('div')
+            contentDiv1Div2.className = 'flex items-center text-center'
+            contentDiv1Div3 = document.createElement('div')
+            contentDiv1Div4 = document.createElement('div')
+            contentDiv1Div4.className = 'flex items-center text-center justify-center h-8 w-14 text-white'
+            contentDiv1Div4.textContent = 'Win'
+            contentDiv1Div5 = document.createElement('div')
+            contentDiv1Div5.className = 'flex items-center text-center justify-center h-8 w-14 text-white'
+            contentDiv1Div5.textContent = 'Place'
+            contentDiv1Div6 = document.createElement('div')
+            contentDiv1Div6.className = 'flex items-center text-center justify-center h-8 w-14 text-white'
+            contentDiv1Div6.textContent = 'Combo'
+            contentDiv1Div7 = document.createElement('div')
+            contentDiv1Div7.className = 'flex items-center text-center'
+
+            contentDiv1.appendChild(contentDiv1Div1)
+            contentDiv1.appendChild(contentDiv1Div2)
+            contentDiv1.appendChild(contentDiv1Div3)
+            contentDiv1.appendChild(contentDiv1Div4)
+            contentDiv1.appendChild(contentDiv1Div5)
+            contentDiv1.appendChild(contentDiv1Div6)
+            contentDiv1.appendChild(contentDiv1Div7)
+            width75.appendChild(contentDiv1)
+
+            for (var runners = 1; runners < 9; runners++) {
+                const contentDiv2 = document.createElement('div')
+                contentDiv2.className = 'grid gap-4 items-center my-1 text-white custom-grid'
+                const contentDiv2Div1 = document.createElement('div')
+                contentDiv2Div1.className = 'text-center w-10'
+                const img = document.createElement('img')
+                img.src = `./images/dog/${runners}.png`
+                const contentDiv2Div2 = document.createElement('div')
+                contentDiv2Div2.className = 'flex items-center text-center'
+                contentDiv2Div2.textContent = 'Juliebee'
+                const contentDiv2Div3 = document.createElement('div')
+                contentDiv2Div3.className = 'flex items-center justify-center text-center w-6 h-6 rounded-full bg-yellow-500 text-white'
+                contentDiv2Div3.textContent = 'F1'
+                const contentDiv2Div4 = document.createElement('div')
+                contentDiv2Div4.className = 'flex items-center text-center bg-yellow-200  justify-center h-8 w-14 text-gray-800 font-semibold rounded hover:bg-green-400 cursor-pointer dog'
+                contentDiv2Div4.textContent = '2.66'
+                contentDiv2Div4.id = 'dog-win-1'
+                const contentDiv2Div5 = document.createElement('div')
+                contentDiv2Div5.className = 'flex items-center text-center bg-yellow-200  justify-center h-8 w-14 text-gray-800 font-semibold rounded hover:bg-green-400 cursor-pointer dog'
+                contentDiv2Div5.textContent = '1.45'
+                const contentDiv2Div6 = document.createElement('div')
+                contentDiv2Div6.className = 'flex items-center text-center bg-gray-700  justify-center h-8 w-14 text-gray-200 font-semibold rounded hover:bg-gray-500 cursor-pointer '
+                contentDiv2Div6.textContent = `${runners}`
+                const contentDiv2Div7 = document.createElement('div')
+                contentDiv2Div7.className = 'flex items-center text-center'
+
+                contentDiv2Div1.appendChild(img)
+                contentDiv2.appendChild(contentDiv2Div1)
+                contentDiv2.appendChild(contentDiv2Div2)
+                contentDiv2.appendChild(contentDiv2Div3)
+                contentDiv2.appendChild(contentDiv2Div4)
+                contentDiv2.appendChild(contentDiv2Div5)
+                contentDiv2.appendChild(contentDiv2Div6)
+                contentDiv2.appendChild(contentDiv2Div7)
+                width75.appendChild(contentDiv2)
+            }
+            headerDiv1Div1.appendChild(timer)
+            headerDiv1Div1.appendChild(gameTime)
+            headerDiv1.appendChild(headerDiv1Div1)
+            headerDiv1Div2.appendChild(headerDiv1Div2Div1)
+            headerDiv1Div2.appendChild(headerDiv1Div2Div2)
+            headerDiv1.appendChild(headerDiv1Div2)
+            accordionHeader.appendChild(headerDiv1)
+            accordionHeader.appendChild(closeBtn)
+            accordion.appendChild(accordionHeader)
+            accordionContent.appendChild(width75)
+            accordion.appendChild(accordionContent)
+            document.body.appendChild(accordion)
+        }
+        for (var i = 0; i < 5; i++) {
+            createOneGameAccordion(i)
+        }
+    </script>
+    <script src="./js/accordion.js"></script>
+
+</body>
+
+</html>
