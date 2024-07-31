@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>Replit</title>
-    <link href="style.css" rel="stylesheet" type="text/css" />
+    <!-- <link href="style.css" rel="stylesheet" type="text/css" /> -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -24,8 +24,14 @@
 </head>
 
 <body class="grid place-items-center h-screen bg-gray-100">
-    <button id="open-modal-btn" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-        Open Modal
+    <button id="" class="px-4 py-2 bg-red-500 text-white rounded cursor-pointer hover:bg-blue-800">
+        Open Cashier Option Modal
+    </button>
+    <button id="open-cashier-modal-btn"
+        class="block bg-green-100 text-black font-bold py-2 px-4 rounded shadow-lg w-full sm:w-auto hover:bg-green-400 hover:text-gray-800 mb-2 ">
+        Cashier Options </button>
+    <button id="open-ticket-modal-btn" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mt-4">
+        Open Ticket Redeem Modal
     </button>
 
     <!-- Cashier Option modal -->
@@ -34,8 +40,8 @@
             <!-- Modal Box -->
             <div class="flex flex-col bg-white rounded w-3/4 h-3/4">
                 <div class="h-12 bg-green-500 flex justify-between items-center px-5 text-gray-100 relative">
-                    <i
-                        class="fa-solid fa-xmark text-gray-300 text-2xl absolute top-3 right-3 hover:text-gray-800 cursor-pointer"></i>
+                    <i class="fa-solid fa-xmark text-gray-300 text-2xl absolute top-3 right-3 hover:text-gray-800 cursor-pointer"
+                        id="close-cashier-modal-btn"></i>
                     <div class="absolute top-2 right-12 text-gray-50 font-semibold text-lg">Br. 385.63</div>
                 </div>
                 <p class="mt-14 text-xl text-gray-500">
@@ -46,8 +52,9 @@
                     laborum ex necessitatibus at, odio, nostrum dignissimos nesciunt
                     velit tenetur suscipit ea reiciendis et id!
                 </p>
-                <button id="close-modal-btn" type="button"
-                    class="border border-gray-200 px-10 py-3 mt-10 bg-red-500 hover:bg-red-600 text-white rounded uppercase tracking-wider">
+                <button type="button"
+                    class="border border-gray-200 px-10 py-3 mt-10 bg-red-500 hover:bg-red-600 text-white rounded uppercase tracking-wider"
+                    id="close-cashier-modal-btn">
                     Close
                 </button>
             </div>
@@ -56,12 +63,12 @@
 
     <!-- Ticket Redeem modal -->
     <div id="ticket-redeem-modal" class=" fixed z-10 inset-0">
-        <div class="flex items-center justify-center min-h-screen bg-gray-500 bg-opacity-75 transition-opacity">
+        <div class="flex items-center justify-center min-h-screen bg-gray-500 bg-opacity-75 transition-opacity hidden">
             <!-- Modal Box -->
             <div id="draggable" class="draggable flex flex-col bg-white rounded w-3/4 h-3/4">
                 <div class="h-12 bg-green-500 flex justify-between items-center px-5 text-gray-100 relative">
                     <i class="fa-solid fa-xmark text-gray-300 text-2xl absolute top-3 right-3 hover:text-gray-800 cursor-pointer"
-                        id="close-modal-btn"></i>
+                        id="close-ticket-modal-btn"></i>
                     <div class="absolute top-2 left-3 text-gray-50 font-semibold text-lg">Redeem Tickets</div>
                 </div>
                 <div class="flex justify-center h-80">
@@ -79,13 +86,20 @@
     </div>
 
     <script>
-        // document.getElementById("open-modal-btn").click()
-        document.getElementById("open-modal-btn").addEventListener("click", function () {
-            document.getElementById("modal").classList.remove("hidden");
+        document.getElementById("open-cashier-modal-btn").addEventListener("click", function () {
+            document.getElementById("cashier-option-modal").firstElementChild.classList.remove("hidden");
         });
 
-        document.getElementById("close-modal-btn").addEventListener("click", function () {
-            document.getElementById("ticket-redeem-modal").classList.add("hidden");
+        document.getElementById("close-cashier-modal-btn").addEventListener("click", function () {
+            document.getElementById("cashier-option-modal").firstElementChild.classList.add("hidden");
+        });
+
+        document.getElementById("open-ticket-modal-btn").addEventListener("click", function () {
+            document.getElementById("ticket-redeem-modal").firstElementChild.classList.remove("hidden");
+        });
+
+        document.getElementById("close-ticket-modal-btn").addEventListener("click", function () {
+            document.getElementById("ticket-redeem-modal").firstElementChild.classList.add("hidden");
         });
 
         const draggable = document.getElementById('draggable');
