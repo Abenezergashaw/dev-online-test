@@ -1617,6 +1617,7 @@
         // console.log(data)
         async function fetchData() {
             document.getElementById('spinner').classList.remove('hidden')
+            const dogContainer = document.querySelector('.dog-container')
             try {
                 const response = await fetch('/data');
                 data = await response.json();
@@ -1626,7 +1627,11 @@
                 return data;
             } catch (error) {
                 document.getElementById('spinner').classList.add('hidden')
-
+                dogContainer.className = 'flex items-center justify-center'
+                const errorDiv = document.createElement('div')
+                errorDiv.className = 'text-red-700 text-2xl text-center font-bold'
+                errorDiv.textContent = 'Error fetching data. Please refresh the page...'
+                dogContainer.appendChild(errorDiv)
                 console.error('Error fetching data:', error);
             }
         }
