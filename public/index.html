@@ -101,6 +101,30 @@
             /* Hide the content initially */
         }
 
+        @keyframes vibrate {
+
+            0%,
+            100% {
+                transform: translateX(0) scale(1);
+            }
+
+            25% {
+                transform: translateX(-1px) scale(1.05);
+            }
+
+            50% {
+                transform: translateX(1px) scale(1.025);
+            }
+
+            75% {
+                transform: translateX(-1px) scale(1.05);
+            }
+        }
+
+        .vibrate {
+            animation: vibrate 0.1s;
+        }
+
         @media screen and (max-width: 1024px) {
             .width-75 {
                 width: 100%;
@@ -113,9 +137,10 @@
 
     <!-- Cashier Option modal -->
     <div id="cashier-option-modal" class="fixed z-10 inset-0 hidden">
-        <div class="flex mt-20 justify-center min-h-screen bg-gray-500 bg-opacity-25 transition-opacity ">
+        <div class=" flex pt-20 justify-center min-h-screen bg-gray-500 bg-opacity-25 transition-opacity"
+            onclick="vibrateModals(this)" data-modal='cashier-options-box'>
             <!-- Modal Box -->
-            <div class="flex flex-col bg-white rounded w-3/4 h-3/4">
+            <div class="flex flex-col bg-white rounded w-3/4 h-3/4 " id="cashier-options-box">
                 <div class="h-12 bg-green-500 flex justify-between items-center px-5 text-gray-100 relative">
                     <i class="fa-solid fa-xmark text-gray-300 text-2xl absolute top-3 right-3 hover:text-gray-800 cursor-pointer"
                         id="close-cashier-modal-btn" data-modal="cashier-option-modal"
@@ -141,9 +166,10 @@
 
     <!-- Ticket Redeem modal -->
     <div id="ticket-redeem-modal" class=" fixed z-10 inset-0 hidden">
-        <div class="flex mt-20 p-10 justify-center min-h-screen bg-gray-500 bg-opacity-25 transition-opacity ">
+        <div class="flex pt-20 justify-center min-h-screen bg-gray-500 bg-opacity-25 transition-opacity "
+            onclick="vibrateModals(this)" data-modal='redeem-box'>
             <!-- Modal Box -->
-            <div id="draggable" class="draggable flex flex-col bg-white rounded w-3/4 h-3/4">
+            <div id="redeem-box" class="draggable flex flex-col bg-white rounded w-3/4 h-3/4">
                 <div class="h-12 bg-green-500 flex justify-between items-center px-5 text-gray-100 relative">
                     <i class="fa-solid fa-xmark text-gray-300 text-2xl absolute top-3 right-3 hover:text-gray-800 cursor-pointer"
                         data-modal="ticket-redeem-modal" onclick="openCloseModals(this)"></i>
@@ -165,9 +191,10 @@
 
     <!-- Ticket Cancel modal -->
     <div id="ticket-cancel-modal" class=" fixed z-10 inset-0 hidden">
-        <div class="flex mt-20 p-10 justify-center min-h-screen bg-gray-500 bg-opacity-25 transition-opacity ">
+        <div class="flex pt-20 justify-center min-h-screen bg-gray-500 bg-opacity-25 transition-opacity "
+            onclick="vibrateModals(this)" data-modal='cancel-box'>
             <!-- Modal Box -->
-            <div id="draggable" class="draggable flex flex-col bg-white rounded w-3/4 h-3/4">
+            <div id="cancel-box" class="draggable flex flex-col bg-white rounded w-3/4 h-3/4">
                 <div class="h-12 bg-green-500 flex justify-between items-center px-5 text-gray-100 relative">
                     <i class="fa-solid fa-xmark text-gray-300 text-2xl absolute top-3 right-3 hover:text-gray-800 cursor-pointer"
                         data-modal="ticket-cancel-modal" onclick="openCloseModals(this)"></i>
@@ -231,15 +258,18 @@
         <div class="hidden lg:hidden" id="navbar-menu">
             <a href="#" class="block bg-green-100 text-black
                 hover:bg-green-400
-                hover:text-gray-800  px-2 py-1 w-full sm:w-auto mb-2 text-center bg-red-500 py-2  font-bold rounded ">
+                hover:text-gray-800  px-2 py-1 w-full sm:w-auto mb-2 text-center bg-red-500 py-2  font-bold rounded"
+                data-modal="cashier-option-modal" onclick="openCloseModals(this)">
                 Cashier Options </a>
             <a href="#" class="block bg-green-100 text-black
                 hover:bg-green-400
-                hover:text-gray-800  px-2 py-1 w-full sm:w-auto mb-2 text-center bg-red-500 py-2  font-bold rounded ">
+                hover:text-gray-800  px-2 py-1 w-full sm:w-auto mb-2 text-center bg-red-500 py-2  font-bold rounded"
+                data-modal="ticket-cancel-modal" onclick="openCloseModals(this)">
                 Cancel </a>
-            <a href="#" class="block bg-green-100 text-black
+            <a href=" #" class="block bg-green-100 text-black
                 hover:bg-green-400
-                hover:text-gray-800  px-2 py-1 w-full sm:w-auto mb-2 text-center bg-red-500 py-2  font-bold rounded ">
+                hover:text-gray-800  px-2 py-1 w-full sm:w-auto mb-2 text-center bg-red-500 py-2  font-bold rounded"
+                data-modal="ticket-redeem-modal" onclick="openCloseModals(this)">
                 Redeem </a>
             <a href="#"
                 class="block text-gray-300 hover:text-white px-2 py-1 w-full sm:w-auto mb-2 text-center bg-red-500 py-2 hover:bg-red-700 font-bold rounded">Logout</a>
@@ -1542,6 +1572,18 @@
     <script src="./js/tabs.js"></script>
     <script>
 
+        function vibrateModals(e) {
+            var modalId = e.getAttribute('data-modal');
+            var button = document.getElementById(modalId)
+
+            if (!button.contains(event.target)) {
+                button.classList.add('vibrate');
+                setTimeout(() => {
+                    button.classList.remove('vibrate');
+                }, 300); // Remove the class after 0.3 seconds
+            }
+        }
+
         function openCloseModals(e) {
             var modalId = e.getAttribute('data-modal');
             var modal = document.getElementById(modalId);
@@ -1583,6 +1625,8 @@
 
                 return data;
             } catch (error) {
+                document.getElementById('spinner').classList.add('hidden')
+
                 console.error('Error fetching data:', error);
             }
         }

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibration Animation with Scaling</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        @keyframes vibrate {
+
+            0%,
+            100% {
+                transform: translateX(0) scale(1);
+            }
+
+            25% {
+                transform: translateX(-2px) scale(1.1);
+            }
+
+            50% {
+                transform: translateX(2px) scale(1.05);
+            }
+
+            75% {
+                transform: translateX(-2px) scale(1.1);
+            }
+        }
+
+        .vibrate {
+            animation: vibrate 0.3s;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="flex items-center justify-center min-h-screen">
+        <div id="vibrating-div" class="bg-blue-500 text-white p-4 rounded cursor-pointer">
+            Vibrate Me!
+        </div>
+    </div>
+
+    <script>
+        function triggerVibration() {
+            const element = document.getElementById('vibrating-div');
+            element.classList.add('vibrate');
+            setTimeout(() => {
+                element.classList.remove('vibrate');
+            }, 300); // Remove the class after 0.3 seconds
+        }
+
+        document.getElementById('vibrating-div').addEventListener('click', triggerVibration);
+    </script>
+</body>
+
+</html>
