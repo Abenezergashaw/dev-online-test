@@ -140,6 +140,52 @@ app.get("/data", (req, res) => {
   });
 });
 
+// Fetch balance
+app.get("/get-balance", (req, res) => {
+  let stake = 0;
+  let winAmount = 0;
+  let cancelAmount = 0;
+  db.query(
+    'SELECT stake FROM ticket WHERE date = "2024-08-02"',
+    (err, stakeData) => {
+      if (err) {
+        return console.error("error running query1: " + err.stack);
+      }
+      // sum += parseInt(stakeData.stake);
+      stakeData.forEach((data) => {
+        stake += parseFloat(data.stake);
+      });
+      db.query(
+        'SELECT amount FROM ticket WHERE date= "2024-08-02" AND paidstatus="1"',
+        (err, wimAmountData) => {
+          if (err) {
+            return console.error("error running query1: " + err.stack);
+          }
+          // sum += parseFloat(wimAmountData.stake);
+          wimAmountData.forEach((data) => {
+            winAmount += parseFloat(data.amount);
+          });
+          db.query(
+            'SELECT stake FROM ticket WHERE date= "2024-08-02" AND cancelstatus="1"',
+            (err, canceAmountData) => {
+              if (err) {
+                return console.error("error running query1: " + err.stack);
+              }
+              // sum += parseFloat(canceAmountData.stake);
+              canceAmountData.forEach((data) => {
+                cancelAmount += parseFloat(data.stake);
+              });
+              console.log(stake, winAmount, cancelAmount);
+              console.log("data", stake - winAmount - cancelAmount);
+              res.json(stake - winAmount - cancelAmount);
+            }
+          );
+        }
+      );
+    }
+  );
+});
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

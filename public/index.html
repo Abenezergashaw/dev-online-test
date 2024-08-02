@@ -161,7 +161,8 @@
                     <i class="fa-solid fa-xmark text-gray-300 text-2xl absolute top-3 right-3 hover:text-gray-800 cursor-pointer"
                         id="close-cashier-modal-btn" data-modal="cashier-option-modal"
                         onclick="openCloseModals(this)"></i>
-                    <div class="absolute top-2 right-12 text-gray-50 font-semibold text-lg">Br. 385.63</div>
+                    <div class="absolute top-2 right-12 text-gray-50 font-semibold text-lg">Br. <span
+                            class="daily-balance"></span></div>
                 </div>
                 <p class="mt-14 text-xl text-gray-500">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet quos,
@@ -239,7 +240,7 @@
             <!-- Centered Nav Links -->
             <div class="hidden lg:flex space-x-4 absolute left-1/2 transform -translate-x-1/2">
                 <button class="bg-green-500 text-white font-bold py-2 px-4 rounded shadow-lg hover:bg-green-700"
-                    id="open-cashier-modal-btn" data-modal="cashier-option-modal" onclick="openCloseModals(this)">
+                    id="open-cashier-modal-btn" data-modal="cashier-option-modal" onclick="fetchBalance(this)">
                     Cashier Options
                 </button>
                 <button class="bg-green-500 text-white font-bold py-2 px-4 rounded shadow-lg hover:bg-green-700"
@@ -2424,6 +2425,21 @@
             } catch (error) {
                 console.error('Error:', error);
             }
+        }
+
+
+        async function fetchBalance(e) {
+
+            try {
+                const response = await fetch('/get-balance');
+                data = await response.json();
+                document.querySelector('.daily-balance').textContent = parseFloat(data).toFixed(2);
+                console.log('jgjg', parseFloat(data).toFixed(2))
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+            openCloseModals(e)
+            alert('asd')
         }
 
 
