@@ -231,9 +231,13 @@
         </div>
     </div>
 
+    <div
+        class="flex justify-center items-center min-h-screen bg-gray-500 bg-opacity-25 transition-opacity spinner-for-modal z-10  fixed inset-0 hidden modal-opening">
+        <i class="fas fa-spinner fa-spin text-green-500 text-6xl opacity-50"></i>
+    </div>
 
 
-    <nav class="bg-gray-900 p-4 shadow-lg">
+    <nav class=" bg-gray-900 p-4 shadow-lg">
         <div class="container mx-auto flex justify-between items-center relative">
             <a href="#" class="text-white text-lg font-semibold">KIRON</a>
 
@@ -276,7 +280,7 @@
             <a href="#" class="block bg-green-100 text-black
                 hover:bg-green-400
                 hover:text-gray-800  px-2 py-1 w-full sm:w-auto mb-2 text-center bg-red-500 py-2  font-bold rounded"
-                data-modal="cashier-option-modal" onclick="openCloseModals(this)">
+                data-modal="cashier-option-modal" onclick="fetchBalance(this)">
                 Cashier Options </a>
             <a href="#" class="block bg-green-100 text-black
                 hover:bg-green-400
@@ -1478,7 +1482,9 @@
                                     +
                                 </div>
                             </div>
-                            <div class="flex justify-end mr-8 text-sm font-semibold">To Win: Br. <span>36.3</span></div>
+                            <div class="flex justify-end mr-8 text-sm font-semibold">To Win: Br.
+                                <span>36.3</span>
+                            </div>
                         </div>
                     </div>
 
@@ -1486,7 +1492,8 @@
             </div>
 
             <!-- Add more bets -->
-            <div class=" text-gray-400 text-md flex justify-center mt-2 opacity-80" id="add-more-bets-text-div">Add more
+            <div class=" text-gray-400 text-md flex justify-center mt-2 opacity-80" id="add-more-bets-text-div">
+                Add more
                 bets
             </div>
 
@@ -2431,15 +2438,19 @@
         async function fetchBalance(e) {
 
             try {
+                document.querySelector('.modal-opening').classList.remove('hidden')
                 const response = await fetch('/get-balance');
                 data = await response.json();
                 document.querySelector('.daily-balance').textContent = parseFloat(data).toFixed(2);
                 console.log('jgjg', parseFloat(data).toFixed(2))
+                document.querySelector('.modal-opening').classList.add('hidden')
+
             } catch (error) {
+                document.querySelector('.modal-opening').classList.add('hidden')
+
                 console.error('Error fetching data:', error);
             }
             openCloseModals(e)
-            alert('asd')
         }
 
 
