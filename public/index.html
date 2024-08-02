@@ -125,6 +125,22 @@
             animation: vibrate 0.1s;
         }
 
+        @keyframes bet-placed-message {
+
+            0%,
+            100% {
+                background-color: #047857;
+            }
+
+            50% {
+                background-color: #10B981;
+            }
+        }
+
+        .bet-place {
+            animation: bet-placed-message 1.5s infinite;
+        }
+
         @media screen and (max-width: 1024px) {
             .width-75 {
                 width: 100%;
@@ -318,8 +334,8 @@
             <!-- Tabs -->
             <div class="tab-content">
                 <div class="tab-pane dog-container relative">
-                    <div id="spinner" class="spinner hidden">
-                        <i class="fas fa-spinner fa-spin text-gray-600"></i>
+                    <div id="spinner" class="spinner text-green-500 hidden">
+                        <i class="fas fa-spinner fa-spin text-green-500"></i>
                     </div>
                     <!-- asd -->
                     <div class="accordion-item bg-gray-900 rounded shadow-md mb-2 hidden">
@@ -1473,26 +1489,33 @@
                 bets
             </div>
 
+            <!-- Add more bets -->
+            <div class="text-white text-md flex justify-center items-center mt-2 bg-green-500 w-5/6 mx-auto hidden bet-place"
+                id="bet-placed-message">
+                Bet
+                successfully placed
+            </div>
+
             <!-- Relative stake buttons  -->
             <div class="flex px-2 gap-2 mb-1 justify-center slide-transition" id="relative-stake-buttons">
                 <div class="h-10 bg-red-400 w-16 flex justify-center items-center text-gray-100 font-bold text-lg hover:bg-red-500 cursor-pointer relative-stake-10"
-                    onclick="relativeStakeCalculator(event)">
+                    style="user-select: none;" onclick="relativeStakeCalculator(event)">
                     10
                 </div>
                 <div class="h-10 bg-blue-300 w-16 flex justify-center items-center text-gray-100 font-bold text-lg hover:bg-blue-500 cursor-pointer relative-stake-20"
-                    onclick="relativeStakeCalculator(event)">
+                    style="user-select: none;" onclick="relativeStakeCalculator(event)">
                     20
                 </div>
                 <div class="h-10 bg-yellow-500 w-16 flex justify-center items-center text-gray-100 font-bold text-lg hover:bg-yellow-700 cursor-pointer relative-stake-50"
-                    onclick="relativeStakeCalculator(event)">
+                    style="user-select: none;" onclick="relativeStakeCalculator(event)">
                     50
                 </div>
                 <div class="h-10 bg-green-300 w-16 flex justify-center items-center text-gray-100 font-bold text-lg hover:bg-green-500 cursor-pointer relative-stake-100"
-                    onclick="relativeStakeCalculator(event)">
+                    style="user-select: none;" onclick="relativeStakeCalculator(event)">
                     100
                 </div>
                 <div class="h-10 bg-blue-500 w-16 flex justify-center items-center text-gray-100 font-bold text-lg hover:bg-green-700 cursor-pointer relative-stake-200"
-                    onclick="relativeStakeCalculator(event)">
+                    style="user-select: none;" onclick="relativeStakeCalculator(event)">
                     200
                 </div>
             </div>
@@ -1501,23 +1524,23 @@
             <!-- General stake buttons -->
             <div class="flex px-2 gap-2 hidden mb-1" id="general-stake-buttons-div">
                 <div class="h-12 bg-red-400 w-20 flex justify-center items-center text-gray-100 font-bold text-lg hover:bg-red-500 cursor-pointer"
-                    onclick=generalStakeCalculator(event)>
+                    style="user-select: none;" onclick=generalStakeCalculator(event)>
                     10
                 </div>
                 <div class="h-12 bg-blue-300 w-20 flex justify-center items-center text-gray-100 font-bold text-lg hover:bg-blue-500 cursor-pointer"
-                    onclick=generalStakeCalculator(event)>
+                    onclick=generalStakeCalculator(event) style="user-select: none;">
                     20
                 </div>
                 <div class="h-12 bg-yellow-500 w-20 flex justify-center items-center text-gray-100 font-bold text-lg hover:bg-yellow-700 cursor-pointer"
-                    onclick=generalStakeCalculator(event)>
+                    style="user-select: none;" onclick=generalStakeCalculator(event)>
                     50
                 </div>
                 <div class="h-12 bg-green-300 w-20 flex justify-center items-center text-gray-100 font-bold text-lg hover:bg-green-500 cursor-pointer"
-                    onclick=generalStakeCalculator(event)>
+                    style="user-select: none;" onclick=generalStakeCalculator(event)>
                     100
                 </div>
                 <div class="h-12 bg-blue-500 w-20 flex justify-center items-center text-gray-100 font-bold text-lg hover:bg-green-700 cursor-pointer"
-                    onclick=generalStakeCalculator(event)>
+                    style="user-select: none;" onclick=generalStakeCalculator(event)>
                     200
                 </div>
             </div>
@@ -1528,14 +1551,14 @@
                 <div class="self-start pl-9 opacity-50"> STAKE</div>
                 <div class=" flex mt-1 justify-center h-8">
                     <div class="bg-gray-600 px-3 text-gray-100 font-bold text-lg hover:bg-gray-500 flex items-start justify-start cursor-pointer"
-                        onclick="updateGeneralStakeInput(event)" data-value="minus">
+                        style="user-select: none;" onclick="updateGeneralStakeInput(event)" data-value="minus">
                         -</div>
                     <input type="number"
                         class="border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-black text-right font-bold general-stake-input"
-                        oninput="generatStakeInputInput(event)" onchange="generatStakeInputInput(event)"
-                        onclick="selectGeneralStakeInputContent(event)" value="10" min="10">
+                        oninput="generatStakeInputInput(event)" onclick="selectGeneralStakeInputContent(event)"
+                        value="10" min="10">
                     <div class="bg-gray-600 px-2 text-gray-100font-bold text-lg hover:bg-gray-500 flex items-start justify-start cursor-pointer"
-                        onclick="updateGeneralStakeInput(event)" data-value="plus">
+                        style="user-select: none;" onclick="updateGeneralStakeInput(event)" data-value="plus">
                         +</div>
                 </div>
             </div>
@@ -1555,11 +1578,11 @@
             <!-- clear and print buttons  -->
             <div class="h-14 mt-5 flex gap-1 p-1">
                 <div class="bg-red-300 w-3/12 flex justify-center items-center py-2 px-4 text-white font-semibold hover:bg-red-500 opacity-50 cursor-not-allowed pointer-events-none"
-                    id="clear-selections" onclick="clearAllSelections()">
+                    style="user-select: none;" id="clear-selections" onclick="clearAllSelections()">
                     CLEAR
                 </div>
                 <div class="bg-green-500 w-9/12 flex justify-center items-center py-2 px-4 text-white font-semibold hover:bg-green-700 opacity-50 cursor-not-allowed pointer-events-none"
-                    id="print-selections">
+                    style="user-select: none;" id="print-selections" onclick="placeBet()">
                     PLACE
                     BET</div>
             </div>
@@ -1567,8 +1590,8 @@
     </div>
 
 
-    <script src=" ./js/responsive-navbar.js">
-    </script>
+    <script src=" ./js/responsive-navbar.js"></script>
+
     <script src="./js/tabs.js"></script>
     <script>
 
@@ -1593,15 +1616,6 @@
                 modal.classList.add("hidden")
             }
         }
-
-        // document.getElementById("open-cashier-modal-btn").addEventListener("click", function () {
-        //     document.getElementById("cashier-option-modal").classList.remove("hidden");
-
-        // });
-
-        // document.getElementById("close-cashier-modal-btn").addEventListener("click", function () {
-        //     document.getElementById("cashier-option-modal").classList.add("hidden");
-        // });
 
         let currentInput = null;
 
@@ -1728,7 +1742,7 @@
                     const img = document.createElement('img')
                     img.src = `./images/dog/${contestants}.png`
                     const contentDiv2Div2 = document.createElement('div')
-                    contentDiv2Div2.className = 'flex items-center text-center'
+                    contentDiv2Div2.className = `flex items-center text-center dog-win-${contestants}-name dog-place-${contestants}-name`
                     contentDiv2Div2.textContent = `${item[`name${contestants}`]}`
                     contentDiv2Div2.id = `dog-win-${contestants}-name`
                     const contentDiv2Div3 = document.createElement('div')
@@ -1752,9 +1766,12 @@
                     contentDiv2Div4.id = `dog-win-${contestants}`
                     contentDiv2Div4.setAttribute('data-number', contestants)
                     contentDiv2Div4.setAttribute('data-game', `${item.game}`)
+                    // contentDiv2Div4.onclick = createTickets()
                     const contentDiv2Div5 = document.createElement('div')
                     contentDiv2Div5.className = 'flex items-center text-center bg-yellow-200  justify-center h-8 w-14 text-gray-800 font-semibold rounded hover:bg-green-400 cursor-pointer dog-place'
                     contentDiv2Div5.textContent = `${item[`p${contestants}`]}`
+                    contentDiv2Div5.id = `dog-place-${contestants}`
+
                     contentDiv2Div5.setAttribute('data-number', contestants)
                     contentDiv2Div5.setAttribute('data-game', `${item.game}`)
                     const contentDiv2Div6 = document.createElement('div')
@@ -1801,12 +1818,19 @@
             const dogWin = document.querySelectorAll('.dog-win');
             dogWin.forEach(dog => {
                 dog.addEventListener('click', () => {
+                    document.getElementById('bet-placed-message').classList.add('hidden')
                     if (!dataGameChecker || dataGameChecker == dog.getAttribute('data-game')) {
                         dog.classList.toggle("selected");
                         if (dog.classList.contains('selected')) {
                             const stakeDiv = document.createElement('div');
                             stakeDiv.className = 'bg-gray-800 h-30 rounded p-1 relative mb-1 selected-item';
                             stakeDiv.id = 'dog-' + dog.id;
+                            stakeDiv.setAttribute('game-type', 'Greyhound Racing')
+                            stakeDiv.setAttribute('game-id', dog.getAttribute('data-game'))
+                            stakeDiv.setAttribute('bet-type', 'Win')
+                            stakeDiv.setAttribute('contestant-number', `${dog.getAttribute('data-number')}. `)
+                            stakeDiv.setAttribute('contestant-odd', dog.textContent)
+                            stakeDiv.setAttribute('contestant-name', document.querySelector(`.${dog.id}-name`).textContent)
                             const xIcon = document.createElement('i')
                             xIcon.className = 'fa-solid fa-xmark text-gray-100 text-2xl absolute top-1 right-2 hover:text-gray-400 cursor-pointer'
                             const div1 = document.createElement('div')
@@ -1872,6 +1896,8 @@
                                     input.value = 10;
                                 }
                                 winAmount.textContent = `${(parseFloat(odd.textContent) * parseFloat(input.value)).toFixed(2)}`
+                                totalStakeCalculator()
+                                totalWinCalculator()
                             })
                             div2.appendChild(div3)
                             div2.appendChild(input)
@@ -1903,7 +1929,8 @@
                                 totalWinCalculator()
                                 if (document.querySelectorAll(".selected-item").length == 0) {
                                     dataGameChecker = null
-
+                                    const curVal = document.querySelector('.general-stake-input')
+                                    curVal.value = 10;
                                 }
                             });
 
@@ -1921,6 +1948,8 @@
                             }
                             if (document.querySelectorAll(".selected-item").length == 0) {
                                 dataGameChecker = null
+                                const curVal = document.querySelector('.general-stake-input')
+                                curVal.value = 10;
                             }
                         }
                     }
@@ -1933,7 +1962,160 @@
 
                 })
             })
+
+            const dogPlace = document.querySelectorAll('.dog-place');
+            dogPlace.forEach(dog => {
+                dog.addEventListener('click', () => {
+                    document.getElementById('bet-placed-message').classList.add('hidden')
+
+                    if (!dataGameChecker || dataGameChecker == dog.getAttribute('data-game')) {
+                        dog.classList.toggle("selected");
+                        if (dog.classList.contains('selected')) {
+                            const stakeDiv = document.createElement('div');
+                            stakeDiv.className = 'bg-gray-800 h-30 rounded p-1 relative mb-1 selected-item';
+                            stakeDiv.id = 'dog-' + dog.id;
+                            stakeDiv.setAttribute('game-type', 'Greyhound Racing')
+                            stakeDiv.setAttribute('bet-type', 'Place')
+                            stakeDiv.setAttribute('game-id', dog.getAttribute('data-game'))
+                            stakeDiv.setAttribute('contestant-number', `${dog.getAttribute('data-number')}. `)
+                            stakeDiv.setAttribute('contestant-odd', dog.textContent)
+                            stakeDiv.setAttribute('contestant-name', document.querySelector(`.${dog.id}-name`).textContent)
+                            const xIcon = document.createElement('i')
+                            xIcon.className = 'fa-solid fa-xmark text-gray-100 text-2xl absolute top-1 right-2 hover:text-gray-400 cursor-pointer'
+                            const div1 = document.createElement('div')
+                            div1.className = 'flex flex-col justify-center ml-4 text-white'
+                            const winText = document.createElement('div')
+                            winText.className = 'text-sm'
+                            winText.textContent = 'Place'
+                            const numNameOddText = document.createElement('div')
+                            numNameOddText.className = 'text-sm'
+                            const num = document.createElement('span')
+                            num.textContent = `${dog.getAttribute('data-number')}. `
+                            const name = document.createElement('span')
+                            name.textContent = document.querySelector(`.${dog.id}-name`).textContent
+                            const odd = document.createElement('span')
+                            odd.textContent = dog.textContent
+                            odd.className = 'bg-green-700 border border-green-300 px-2 text-white text-sm font-semibold ml-4 dog-win-odd'
+                            numNameOddText.appendChild(num)
+                            numNameOddText.appendChild(name)
+                            numNameOddText.appendChild(odd)
+                            const time = document.createElement('div')
+                            time.className = 'text-sm font-semibold'
+                            time.textContent = `2024/07/24 15:09:00 ID${dog.getAttribute('data-game')}`
+                            const div2 = document.createElement('div')
+                            div2.className = 'flex mt-1 justify-start h-8'
+                            const div3 = document.createElement('div')
+                            div3.className = 'bg-gray-600 px-3 text-gray-100 font-bold text-lg hover:bg-gray-500 flex items-start justify-start cursor-pointer'
+                            div3.textContent = '-'
+                            div3.addEventListener('click', () => {
+                                input.value = parseInt(input.value) - 10;
+                                input.select()
+                                winAmount.textContent = `${(parseFloat(odd.textContent) * parseFloat(input.value)).toFixed(2)}`
+                                totalStakeCalculator()
+                                totalWinCalculator()
+
+                                if (input.value < 10) {
+                                    input.value = 10;
+                                    input.select()
+                                }
+                            })
+                            const div4 = document.createElement('div')
+                            div4.className = 'bg-gray-600 px-2 text-gray-100font-bold text-lg hover:bg-gray-500 flex items-start justify-start cursor-pointer'
+                            div4.textContent = '+'
+                            div4.addEventListener('click', () => {
+
+                                input.value = parseInt(input.value) + 10;
+                                input.select()
+                                winAmount.textContent = `${(parseFloat(odd.textContent) * parseFloat(input.value)).toFixed(2)}`
+                                totalStakeCalculator()
+                                totalWinCalculator()
+
+                                if (input.value > 1000) {
+                                    input.classList.add('bg-red-500', 'text-gray-100')
+                                    input.select()
+                                }
+                            })
+                            const input = document.createElement('input')
+                            input.type = 'number'
+                            input.value = '10'
+                            input.className = 'border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-black text-right font-bold stake-input'
+                            input.onclick = createRelativeStakeButtons
+                            input.addEventListener('input', () => {
+                                if (input.value == '') {
+                                    input.value = 10;
+                                }
+                                winAmount.textContent = `${(parseFloat(odd.textContent) * parseFloat(input.value)).toFixed(2)}`
+                                totalStakeCalculator()
+                                totalWinCalculator()
+
+                            })
+                            div2.appendChild(div3)
+                            div2.appendChild(input)
+                            div2.appendChild(div4)
+                            const winAmountDiv = document.createElement('div')
+                            winAmountDiv.className = 'flex justify-end mr-8 text-sm font-semibold '
+                            winAmountDiv.textContent = 'To Win:';
+
+                            const winAmount = document.createElement('span');
+                            winAmount.className = 'win-amount-span'
+                            winAmount.textContent = `${(parseFloat(odd.textContent) * parseFloat(input.value)).toFixed(2)}`
+                            winAmountDiv.appendChild(winAmount)
+
+                            div1.appendChild(winText)
+                            div1.appendChild(numNameOddText)
+                            div1.appendChild(time)
+                            div1.appendChild(div2)
+                            div1.appendChild(winAmountDiv)
+                            stakeDiv.appendChild(xIcon)
+                            stakeDiv.appendChild(div1)
+
+                            xIcon.addEventListener("click", () => {
+                                // stakeDiv.remove();
+                                removeStakeDivxIcon(xIcon)
+                                dog.classList.remove("selected");
+                                changeDynamicTicketElementsState()
+                                totalStakeCalculator()
+                                generalStakeInput()
+                                totalWinCalculator()
+                                if (document.querySelectorAll(".selected-item").length == 0) {
+                                    dataGameChecker = null
+                                    const curVal = document.querySelector('.general-stake-input')
+                                    curVal.value = 10;
+                                }
+                            });
+
+                            document.getElementById('dynamic-tickets-div').appendChild(stakeDiv)
+
+                            dataGameChecker = dog.getAttribute('data-game')
+
+                        } else {
+                            const spans = document.querySelectorAll(".selected-item");
+                            for (let i = 0; i < spans.length; i++) {
+                                if (spans[i].id === ('dog-' + dog.id)) {
+                                    spans[i].remove();
+                                    break;
+                                }
+                            }
+                            if (document.querySelectorAll(".selected-item").length == 0) {
+                                dataGameChecker = null
+                                const curVal = document.querySelector('.general-stake-input')
+                                curVal.value = 10;
+                            }
+                        }
+                    }
+                    changeDynamicTicketElementsState()
+                    totalStakeCalculator()
+                    totalWinCalculator()
+
+                    generalStakeInput()
+
+
+                })
+            })
+
         }
+
+
         function changeDynamicTicketElementsState() {
             const selectedItems = document.querySelectorAll('.selected-item')
             const generalStakeButtons = document.getElementById('general-stake-buttons-div')
@@ -2005,7 +2187,13 @@
         function relativeStakeCalculator(e) {
             const addStake = e.target.textContent;
             const currentStake = currentInput.value;
-            currentInput.value = parseInt(addStake) + parseInt(currentStake)
+            if (currentStake == 10) {
+                currentInput.value = parseInt(addStake)
+            } else {
+
+                currentInput.value = parseInt(addStake) + parseInt(currentStake)
+            }
+            currentInput.select()
             totalStakeCalculator()
             updateWinAmountEach()
             totalWinCalculator()
@@ -2014,12 +2202,30 @@
         function generalStakeCalculator(e) {
             const stakeInputs = document.querySelectorAll('.stake-input')
             const addStake = e.target.textContent;
-            stakeInputs.forEach(stakeInput => {
-                const currentStake = stakeInput.value;
-                stakeInput.value = parseInt(addStake) + parseInt(currentStake)
-            })
-            const generalStakeInput = document.querySelector('.general-stake-input')
-            generalStakeInput.value = parseInt(generalStakeInput.value) + parseInt(addStake)
+            const curVal = document.querySelector('.general-stake-input')
+            if (addStake == 10) {
+                stakeInputs.forEach(stakeInput => {
+                    const currentStake = stakeInput.value;
+                    stakeInput.value = parseInt(addStake) + parseInt(currentStake)
+                })
+                curVal.value = parseInt(curVal.value) + parseInt(addStake)
+            } else {
+                if (curVal.value == 10) {
+                    stakeInputs.forEach(stakeInput => {
+                        const currentStake = stakeInput.value;
+                        stakeInput.value = parseInt(addStake)
+
+                    })
+                    curVal.value = parseInt(addStake)
+
+                } else {
+                    stakeInputs.forEach(stakeInput => {
+                        const currentStake = stakeInput.value;
+                        stakeInput.value = parseInt(addStake) + parseInt(currentStake)
+                    })
+                    curVal.value = parseInt(curVal.value) + parseInt(addStake)
+                }
+            }
             totalStakeCalculator()
             updateWinAmountEach()
             totalWinCalculator()
@@ -2158,6 +2364,56 @@
             // }
             inputContainer.removeChild(inputWrapper);
         }
+
+        function placeBet() {
+            const selections = document.querySelectorAll('.selected-item')
+            selections.forEach(selection => {
+                const gameID = selection.getAttribute('game-id');
+                const gameType = selection.getAttribute('game-type');
+                const betType = selection.getAttribute('bet-type');
+                const contestantNumber = selection.getAttribute('contestant-number');
+                const contestantName = selection.getAttribute('contestant-name');
+                const contestantOdd = selection.getAttribute('contestant-odd');
+                const stake = selection.querySelector('.stake-input').value;
+
+                const data = {
+                    gameID: gameID,
+                    gameType: gameType,
+                    betType: betType,
+                    contestantNumber: contestantNumber,
+                    contestantOdd: contestantOdd,
+                    contestantName: contestantName,
+                    stake: stake,
+                    ticketID: new Date().getTime()
+                }
+                console.log(data)
+                saveTicketData(data)
+            })
+
+        }
+
+        async function saveTicketData(data) {
+            try {
+                const response = await fetch('/save-ticket-data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.text();
+                if (result == '1') {
+                    clearAllSelections()
+                    document.getElementById('bet-placed-message').classList.remove('hidden')
+                    document.getElementById('add-more-bets-text-div').classList.add('hidden')
+
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
 
     </script>
     <script src="./js/accordion.js"></script>

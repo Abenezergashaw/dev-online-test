@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media print {
+            .print-button {
+                display: none;
+            }
+        }
+
+        .ticket {
+            width: 320px;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white border p-2 ticket">
+        <div class="flex flex-col justify-center items-end">
+            <p class="text-sm">98102800854966</p>
+            <p class="text-sm">24b24</p>
+            <p class="text-sm">24b24.cashier2</p>
+            <p class="text-sm mb-4">2024/07/24 06:45:33</p>
+        </div>
+        <div class="flex justify-between items-center">
+            <p class="text-sm font-bold">Win</p>
+            <p class="text-sm font-bold">Br 100.00</p>
+        </div>
+
+        <p class="text-sm">Horse Racing 2024/07/24 06:46:00 #1085</p>
+        <p class="text-sm mb-4 ml-3">8. Slinga Malinga 6.71</p>
+
+        <div class="flex justify-between items-center px-1">
+            <p class="text-sm font-bold mb-1">Total Stake</p>
+            <p class="text-sm font-bold mb-1">Br 100.00</p>
+        </div>
+        <div class="border border-black px-1">
+            <div class="flex justify-between items-center">
+                <p class="text-sm font-bold">Min Payout (Incl. Stake)</p>
+                <p class="text-sm font-bold">Br 671.00</p>
+            </div>
+            <div class="flex justify-between items-center ">
+                <p class="text-sm font-bold">Max Payout (Incl. Stake)</p>
+                <p class="text-sm font-bold">Br 671.00</p>
+            </div>
+        </div>
+        <div class="barcode my-2 w-full flex justify-center items-center">
+            <img src="http://localhost:3000/barcode?data=12345678900" alt="Barcode" class="w-3/4">
+        </div>
+
+
+    </div>
+    <button class="print-button mt-4 px-4 py-2 bg-green-500 text-white rounded" onclick="window.print()">Print</button>
+</body>
+
+</html>

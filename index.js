@@ -17,7 +17,7 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/public/index.html");
 });
 
-// Handle form submission
+// Handle odd saving
 app.post("/submit", (req, res) => {
   console.log(req.body);
   const {
@@ -89,6 +89,39 @@ app.post("/submit", (req, res) => {
         console.log("Data inserted successfully:", results);
         res.send("Data inserted successfully");
       }
+    }
+  );
+});
+
+// save ticket data api
+app.post("/save-ticket-data", (req, res) => {
+  const data = req.body;
+
+  const sql =
+    "INSERT INTO ticket (username,userid,gameid,ticketid,type,name,number,odd,stake,amount,winstatus,paidstatus,payerid,gametype) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+  db.query(
+    sql,
+    [
+      "aben",
+      1,
+      data.gameID,
+      data.ticketID,
+      data.betType,
+      data.contestantName,
+      data.contestantNumber,
+      data.contestantOdd,
+      data.stake,
+      0,
+      0,
+      0,
+      0,
+      0,
+    ],
+    (err, result) => {
+      if (err) {
+        return res.status(500).send("Database error");
+      }
+      res.send("1");
     }
   );
 });
