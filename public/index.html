@@ -2259,14 +2259,18 @@
                 curVal.value = parseInt(curVal.value) + 10
                 if (curVal.value > 1000) {
                     curVal.classList.add('bg-red-500', 'text-gray-100')
+                    curVal.select()
                 }
+                curVal.select()
+
                 // alert(asd)
             } else if (val == 'minus') {
                 curVal.value = parseInt(curVal.value) - 10
                 if (curVal.value <= 10) {
                     curVal.value = 10
+                    curVal.select()
                 }
-
+                curVal.select()
 
             }
             updateGeneralStakeInputCustom()
@@ -2400,7 +2404,7 @@
         async function saveTicketData(data) {
             try {
                 document.querySelector('.ticket-spinner').classList.remove('hidden')
-                document.querySelector('.main-ticket-div').classList.add('opacity-20')
+                document.querySelector('.main-ticket-div').classList.add('opacity-50')
                 const response = await fetch('/save-ticket-data', {
                     method: 'POST',
                     headers: {
@@ -2415,7 +2419,7 @@
                     document.getElementById('bet-placed-message').classList.remove('hidden')
                     document.getElementById('add-more-bets-text-div').classList.add('hidden')
                     document.querySelector('.ticket-spinner').classList.add('hidden')
-                    document.querySelector('.main-ticket-div').classList.remove('opacity-20')
+                    document.querySelector('.main-ticket-div').classList.remove('opacity-50')
                 }
             } catch (error) {
                 console.error('Error:', error);
