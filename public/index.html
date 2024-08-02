@@ -1429,7 +1429,7 @@
         </div>
 
         <!-- 30% Section -->
-        <div class="flex-1 lg:flex-none lg:w-3/12 bg-gray-900 mt-1">
+        <div class="flex-1 lg:flex-none lg:w-3/12 bg-gray-900 mt-1 main-ticket-div">
 
             <!-- Betslip Div -->
             <div class="text-green-500 text-lg flex justify-center mt-1">Betslip</div>
@@ -1563,6 +1563,10 @@
                 </div>
             </div>
 
+            <div class="hidden ticket-spinner flex items-center justify-center bg-gray-900 bg-opacity-50">
+                <i class="fas fa-spinner fa-spin text-green-500 text-4xl"></i>
+            </div>
+
             <!-- Total win -->
             <div class="h-16 flex flex-col justify-between items-between px-2 hidden" id="total-stake-total-win-div">
                 <div class="text-gray-200 font-semibold flex justify-between ">
@@ -1577,6 +1581,7 @@
 
             <!-- clear and print buttons  -->
             <div class="h-14 mt-5 flex gap-1 p-1">
+
                 <div class="bg-red-300 w-3/12 flex justify-center items-center py-2 px-4 text-white font-semibold hover:bg-red-500 opacity-50 cursor-not-allowed pointer-events-none"
                     style="user-select: none;" id="clear-selections" onclick="clearAllSelections()">
                     CLEAR
@@ -2394,6 +2399,8 @@
 
         async function saveTicketData(data) {
             try {
+                document.querySelector('.ticket-spinner').classList.remove('hidden')
+                document.querySelector('.main-ticket-div').classList.add('opacity-20')
                 const response = await fetch('/save-ticket-data', {
                     method: 'POST',
                     headers: {
@@ -2407,7 +2414,8 @@
                     clearAllSelections()
                     document.getElementById('bet-placed-message').classList.remove('hidden')
                     document.getElementById('add-more-bets-text-div').classList.add('hidden')
-
+                    document.querySelector('.ticket-spinner').classList.add('hidden')
+                    document.querySelector('.main-ticket-div').classList.remove('opacity-20')
                 }
             } catch (error) {
                 console.error('Error:', error);
