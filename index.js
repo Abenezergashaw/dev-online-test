@@ -140,13 +140,23 @@ app.get("/data", (req, res) => {
   });
 });
 
+// Get date function
+function getCurrentDateFormatted() {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
 // Fetch balance
 app.get("/get-balance", (req, res) => {
   let stake = 0;
   let winAmount = 0;
   let cancelAmount = 0;
   db.query(
-    'SELECT stake FROM ticket WHERE date = "2024-08-02"',
+    `SELECT stake FROM ticket WHERE date = "${getCurrentDateFormatted()}"`,
     (err, stakeData) => {
       if (err) {
         return console.error("error running query1: " + err.stack);
@@ -156,7 +166,7 @@ app.get("/get-balance", (req, res) => {
         stake += parseFloat(data.stake);
       });
       db.query(
-        'SELECT amount FROM ticket WHERE date= "2024-08-02" AND paidstatus="1"',
+        `SELECT amount FROM ticket WHERE date= "${getCurrentDateFormatted()}" AND paidstatus="1"`,
         (err, wimAmountData) => {
           if (err) {
             return console.error("error running query1: " + err.stack);
@@ -166,7 +176,7 @@ app.get("/get-balance", (req, res) => {
             winAmount += parseFloat(data.amount);
           });
           db.query(
-            'SELECT stake FROM ticket WHERE date= "2024-08-02" AND cancelstatus="1"',
+            `SELECT stake FROM ticket WHERE date= "${getCurrentDateFormatted()}" AND cancelstatus="1"`,
             (err, canceAmountData) => {
               if (err) {
                 return console.error("error running query1: " + err.stack);

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bingo Game</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .progress-bar {
+            width: 100%;
+            background-color: #e0e0df;
+        }
+
+        .progress {
+            height: 1rem;
+            background-color: #76c7c0;
+            width: 0%;
+        }
+
+        .balls-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .ball {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 5px;
+        }
+
+        .highlight {
+            background-color: #76c7c0;
+            color: white;
+        }
+    </style>
+</head>
+
+<body class="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div class="mb-4 text-2xl font-bold">Bingo Game</div>
+    <div class="mb-4">
+        <button id="playPauseButton" class="px-4 py-2 bg-green-500 text-white rounded">Play</button>
+        <button id="stopButton" class="px-4 py-2 bg-red-500 text-white rounded">Stop</button>
+    </div>
+    <div class="mb-4">
+        <label for="speedRange" class="block text-sm font-medium text-gray-700">Speed:</label>
+        <input type="range" id="speedRange" min="100" max="2000" value="1000" class="w-full">
+    </div>
+    <div id="numberDisplay" class="mb-4 text-3xl font-bold">0</div>
+    <div class="progress-bar">
+        <div id="progress" class="progress"></div>
+    </div>
+    <div class="mt-4 text-lg font-bold">Last Ball Drawn: <span id="lastBall"></span></div>
+    <div class="mt-2 text-lg font-bold">Last Five Balls: <span id="lastFiveBalls"></span></div>
+    <div id="ballsContainer" class="balls-container"></div>
+    <div id="drawnNumbers" class="mt-4"></div>
+
+    <script>
+        const playPauseButton = document.getElementById('playPauseButton');
+        const stopButton = document.getElementById('stopButton');
+        const speedRange = document.getElementById('speedRange');
+        const numberDisplay = document.getElementById('numberDisplay');
+        const progress = document.getElementById('progress');
+        const ballsContainer = document.getElementById('ballsContainer');
+        const lastBall = document.getElementById('lastBall');
+        const lastFiveBalls = document.getElementById('lastFiveBalls');
+        const drawnNumbers = document.getElementById('drawnNumbers');
+
+        let numbers = Array.from({ length: 80 }, (_, i) => i + 1);
+        let intervalId;
+        let speed = parseInt(speedRange.value);
+        let currentIndex = 0;
+        let isPaused = true;
+        let drawnNumbersList = [];
+
+        // Create balls
+        for (let i = 1; i <= 80; i++) {
+            const ball = document.createElement('div');
+            ball.textContent = i;
+            ball.classList.add('ball');
+            ballsContainer.appendChild(ball);
+        }
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function drawNumber() {
+            if (currentIndex >= numbers.length) {
+                stopDrawing();
+                return;
+            }
+
+            if (!isPaused) {
+                const number = numbers[currentIndex];
+                numberDisplay.textContent = number;
+                lastBall.textContent = number;
+                drawnNumbersList.push(number);
+                drawnNumbers.textContent = 'Drawn Numbers: ' + drawnNumbersList.join(', ');
+
+                // Update last five balls
+                lastFiveBalls.textContent = drawnNumbersList.slice(-5).join(', ');
+
+                // Highlight the drawn ball
+                const ballElements = document.querySelectorAll('.ball');
+                ballElements.forEach(ball => {
+                    if (parseInt(ball.textContent) === number) {
+                        ball.classList.add('highlight');
+                    }
+                });
+
+                currentIndex++;
+
+                // Update progress bar
+                const progressPercentage = (currentIndex / numbers.length) * 100;
+                progress.style.width = `${progressPercentage}%`;
+            }
+        }
+
+        function startDrawing() {
+            intervalId = setInterval(drawNumber, speed);
+        }
+
+        function stopDrawing() {
+            clearInterval(intervalId);
+            intervalId = null;
+        }
+
+        playPauseButton.addEventListener('click', () => {
+            if (isPaused) {
+                if (!intervalId) {
+                    numbers = shuffle(numbers);
+                    currentIndex = 0;
+                    drawnNumbersList = [];
+                    progress.style.width = '0%';
+                    const ballElements = document.querySelectorAll('.ball');
+                    ballElements.forEach(ball => {
+                        ball.classList.remove('highlight');
+                    });
+                    startDrawing();
+                }
+                isPaused = false;
+                playPauseButton.textContent = 'Pause';
+            } else {
+                isPaused = true;
+                playPauseButton.textContent = 'Play';
+            }
+        });
+
+        stopButton.addEventListener('click', () => {
+            stopDrawing();
+            numberDisplay.textContent = '0';
+            drawnNumbersList = [];
+            drawnNumbers.textContent = '';
+            progress.style.width = '0%';
+            lastBall.textContent = '';
+            lastFiveBalls.textContent = '';
+            playPauseButton.textContent = 'Play';
+            isPaused = true;
+
+            // Remove highlight from all balls
+            const ballElements = document.querySelectorAll('.ball');
+            ballElements.forEach(ball => {
+                ball.classList.remove('highlight');
+            });
+        });
+
+        speedRange.addEventListener('input', (e) => {
+            speed = parseInt(e.target.value);
+            if (intervalId) {
+                stopDrawing();
+                startDrawing();
+            }
+        });
+    </script>
+</body>
+
+</html>

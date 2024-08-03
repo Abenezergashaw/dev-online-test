@@ -20,42 +20,99 @@
 </head>
 
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <div class="bg-white border p-2 ticket">
-        <div class="flex flex-col justify-center items-end">
-            <p class="text-sm">98102800854966</p>
-            <p class="text-sm">24b24</p>
-            <p class="text-sm">24b24.cashier2</p>
-            <p class="text-sm mb-4">2024/07/24 06:45:33</p>
-        </div>
-        <div class="flex justify-between items-center">
-            <p class="text-sm font-bold">Win</p>
-            <p class="text-sm font-bold">Br 100.00</p>
-        </div>
-
-        <p class="text-sm">Horse Racing 2024/07/24 06:46:00 #1085</p>
-        <p class="text-sm mb-4 ml-3">8. Slinga Malinga 6.71</p>
-
-        <div class="flex justify-between items-center px-1">
-            <p class="text-sm font-bold mb-1">Total Stake</p>
-            <p class="text-sm font-bold mb-1">Br 100.00</p>
-        </div>
-        <div class="border border-black px-1">
-            <div class="flex justify-between items-center">
-                <p class="text-sm font-bold">Min Payout (Incl. Stake)</p>
-                <p class="text-sm font-bold">Br 671.00</p>
-            </div>
-            <div class="flex justify-between items-center ">
-                <p class="text-sm font-bold">Max Payout (Incl. Stake)</p>
-                <p class="text-sm font-bold">Br 671.00</p>
-            </div>
-        </div>
-        <div class="barcode my-2 w-full flex justify-center items-center">
-            <img src="http://localhost:3000/barcode?data=12345678900" alt="Barcode" class="w-3/4">
-        </div>
-
-
-    </div>
     <button class="print-button mt-4 px-4 py-2 bg-green-500 text-white rounded" onclick="window.print()">Print</button>
+
+    <script>
+        function createTicketBody() {
+            const mainDiv = document.createElement('div')
+            mainDiv.className = 'bg-white border p-2 ticket'
+            const headerDiv = document.createElement('div')
+            headerDiv.className = 'flex flex-col justify-center items-end'
+            const p1 = document.createElement('p')
+            p1.textContent = '98102800854966'
+            p1.className = 'text-sm'
+            const p2 = document.createElement('p')
+            p2.textContent = '24b24'
+            p2.className = 'text-sm'
+            const p3 = document.createElement('p')
+            p3.textContent = '24b24.cashier2'
+            p3.className = 'text-sm'
+            const p4 = document.createElement('p')
+            p4.textContent = '2024/07/24 06:45:33'
+            p4.className = 'text-sm mb-4'
+            headerDiv.appendChild(p1)
+            headerDiv.appendChild(p2)
+            headerDiv.appendChild(p3)
+            headerDiv.appendChild(p4)
+
+            const ticketDiv = document.createElement('div')
+            ticketDiv.className = 'flex justify-between items-center'
+            const p5 = document.createElement('p')
+            p5.textContent = 'Win'
+            p5.className = 'text-sm font-bold'
+            const p6 = document.createElement('p')
+            p6.textContent = 'Br 100.00'
+            p6.className = 'text-sm font-bold'
+            ticketDiv.appendChild(p5)
+            ticketDiv.appendChild(p6)
+
+            const p7 = document.createElement('p')
+            p7.textContent = 'Horse Racing 2024/07/24 06:46:00 #1085'
+            p7.className = 'text-sm'
+            const p8 = document.createElement('p')
+            p8.textContent = '8. Slinga Malinga 6.71'
+            p8.className = 'text-sm mb-4 ml-3'
+
+            const stakeDiv = document.createElement('div')
+            stakeDiv.className = 'flex justify-between items-center'
+            const p9 = document.createElement('p')
+            p9.textContent = 'Total Stake'
+            p9.className = 'text-sm font-bold mb-1'
+            const p10 = document.createElement('p')
+            p10.textContent = 'Br 100.00'
+            p10.className = 'text-sm font-bold mb-1'
+            stakeDiv.appendChild(p9)
+            stakeDiv.appendChild(p10)
+
+            const minMaxDiv = document.createElement('div')
+            minMaxDiv.className = 'border border-black px-1'
+            const minDiv = document.createElement('div')
+            minDiv.className = 'flex justify-between items-center'
+            const p11 = document.createElement('p')
+            p11.textContent = 'Min Payout (Incl. Stake)'
+            p11.className = 'text-sm font-bold'
+            const p12 = document.createElement('p')
+            p12.textContent = 'Br 671.00'
+            p12.className = 'text-sm font-bold'
+            minDiv.appendChild(p11)
+            minDiv.appendChild(p12)
+            const maxDiv = document.createElement('div')
+            maxDiv.className = 'flex justify-between items-center'
+            const p13 = document.createElement('p')
+            p13.textContent = 'Max Payout (Incl. Stake)'
+            p13.className = 'text-sm font-bold'
+            const p14 = document.createElement('p')
+            p14.textContent = 'Br 671.00'
+            p14.className = 'text-sm font-bold'
+            maxDiv.appendChild(p13)
+            maxDiv.appendChild(p14)
+            minMaxDiv.appendChild(minDiv)
+            minMaxDiv.appendChild(maxDiv)
+
+            mainDiv.appendChild(headerDiv)
+            mainDiv.appendChild(ticketDiv)
+            mainDiv.appendChild(p7)
+            mainDiv.appendChild(p8)
+            mainDiv.appendChild(stakeDiv)
+            mainDiv.appendChild(minMaxDiv)
+
+            document.body.appendChild(mainDiv)
+        }
+
+        createTicketBody()
+    </script>
+
+
 </body>
 
 </html>

@@ -2412,7 +2412,7 @@
         async function saveTicketData(data) {
             try {
                 document.querySelector('.ticket-spinner').classList.remove('hidden')
-                document.querySelector('.main-ticket-div').classList.add('opacity-50')
+                document.querySelector('.main-ticket-div').classList.add('opacity-50', 'cursor-not-allowed', 'pointer-events-none')
                 const response = await fetch('/save-ticket-data', {
                     method: 'POST',
                     headers: {
@@ -2427,7 +2427,7 @@
                     document.getElementById('bet-placed-message').classList.remove('hidden')
                     document.getElementById('add-more-bets-text-div').classList.add('hidden')
                     document.querySelector('.ticket-spinner').classList.add('hidden')
-                    document.querySelector('.main-ticket-div').classList.remove('opacity-50')
+                    document.querySelector('.main-ticket-div').classList.remove('opacity-50', 'cursor-not-allowed', 'pointer-events-none')
                 }
             } catch (error) {
                 console.error('Error:', error);
