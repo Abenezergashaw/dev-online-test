@@ -49,7 +49,7 @@ app.post("/submit", (req, res) => {
     name8,
   } = req.body;
   const query =
-    "INSERT INTO odds (game,runners,w1,p1,w2,p2,w3,p3,w4,p4,w5,p5,w6,p6,w7,p7,w8,p8,name1,name2,name3,name4,name5,name6,name7,name8) VALUES (?, ?,?, ?,?, ?,?, ?,?, ?,?, ?,?, ?,?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    "INSERT INTO dogodds (game,runners,w1,p1,w2,p2,w3,p3,w4,p4,w5,p5,w6,p6,w7,p7,w8,p8,name1,name2,name3,name4,name5,name6,name7,name8) VALUES (?, ?,?, ?,?, ?,?, ?,?, ?,?, ?,?, ?,?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
   db.query(
     query,
@@ -126,9 +126,23 @@ app.post("/save-ticket-data", (req, res) => {
   );
 });
 
-// Fetch data
-app.get("/data", (req, res) => {
-  const query = "SELECT * FROM odds where game BETWEEN 2049 AND 2054";
+// Fetch dog data
+app.get("/dog-data", (req, res) => {
+  const query = "SELECT * FROM dogodds where game BETWEEN 2049 AND 2058";
+
+  db.query(query, (error, results) => {
+    if (error) {
+      console.error("Error fetching data:", error);
+      res.status(500).send("Error fetching data");
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+// Fetch horse data
+app.get("/horse-data", (req, res) => {
+  const query = "SELECT * FROM horseodds where game BETWEEN 1049 AND 1054";
 
   db.query(query, (error, results) => {
     if (error) {
