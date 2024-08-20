@@ -1016,7 +1016,7 @@
                 timer.textContent = '2:03'
                 const gameTime = document.createElement('h2')
                 gameTime.className = 'text-lg font-semibold mr-2'
-                gameTime.textContent = '17:51'
+                gameTime.textContent = `${dogObj[item.game].slice(0, -3)}`
                 const headerDiv1Div2 = document.createElement('div')
                 headerDiv1Div2.className = 'flex flex-col'
                 const headerDiv1Div2Div1 = document.createElement('div')
@@ -1171,7 +1171,7 @@
                 timer.textContent = '2:45'
                 const gameTime = document.createElement('h2')
                 gameTime.className = 'text-lg font-semibold mr-2'
-                gameTime.textContent = '17:56'
+                gameTime.textContent = `${horseObj[item.game].slice(0, -3)}`
                 const headerDiv1Div2 = document.createElement('div')
                 headerDiv1Div2.className = 'flex flex-col'
                 const headerDiv1Div2Div1 = document.createElement('div')
@@ -2176,6 +2176,7 @@
                 userCashier: userCashier,
             }
             let printArray = []
+            let ticketID = new Date().getTime()
             selections.forEach(selection => {
                 const gameID = selection.getAttribute('game-id');
                 const gameType = selection.getAttribute('game-type');
@@ -2193,7 +2194,7 @@
                     contestantOdd: contestantOdd,
                     contestantName: contestantName,
                     stake: stake,
-                    ticketID: new Date().getTime()
+                    ticketID: ticketID
                 }
                 // console.log(data)
                 printArray.push(betsData)
