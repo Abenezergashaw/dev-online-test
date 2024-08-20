@@ -2229,7 +2229,7 @@
             p3.className = 'text-sm';
 
             const p4 = document.createElement('p');
-            p4.textContent = '2024/07/24 06:45:33';
+            p4.textContent = `${getTodayForTicket()} ${getCurrentTime()}`;
             p4.className = 'text-sm mb-4';
 
             headerDiv.appendChild(p1);
@@ -2255,7 +2255,7 @@
                 mainDiv.appendChild(ticketDiv);
 
                 const p7 = document.createElement('p');
-                p7.textContent = `${data.printArray[i].gameType} 2024/07/24 06:46:00 #${data.printArray[i].gameID}`;
+                p7.textContent = `${data.printArray[i].gameType} ${getTodayForTicket()} ${data.printArray[i].gameID > 2000 ? dogObj[data.printArray[i].gameID] : horseObj[data.printArray[i].gameID]} #${data.printArray[i].gameID}`;
                 p7.className = 'text-sm';
 
                 const p8 = document.createElement('p');
