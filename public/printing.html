@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Print Ticket</title>
+    <style>
+        /* Add some basic styling */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        .ticket {
+            font-family: Arial, sans-serif;
+            width: 300px;
+        }
+
+        .text-sm {
+            font-size: 12px;
+        }
+
+        .font-bold {
+            font-weight: bold;
+        }
+
+        .mb-4 {
+            margin-bottom: 16px;
+        }
+
+        .mb-1 {
+            margin-bottom: 4px;
+        }
+
+        .ml-3 {
+            margin-left: 12px;
+        }
+
+        .border {
+            border: 1px solid black;
+        }
+
+        .p-2 {
+            padding: 8px;
+        }
+
+        .px-1 {
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .flex-col {
+            flex-direction: column;
+        }
+
+        .flex-col p {
+            margin-bottom: .5px;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .justify-center {
+            justify-content: center;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .items-end {
+            align-items: flex-end;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Print Ticket Example</h1>
+    <button id="a">Print Ticket</button>
+
+
+    <script>
+        const data = {
+            "userName": "24b24",
+            "userCashier": 2,
+            "printArray": [
+                {
+                    "gameID": "2058",
+                    "gameType": "Greyhound Racing",
+                    "betType": "Win",
+                    "contestantNumber": "7. ",
+                    "contestantOdd": "26.1",
+                    "contestantName": "Just Jinger",
+                    "stake": "10",
+                    "ticketID": 1724169743334
+                },
+                {
+                    "gameID": "2058",
+                    "gameType": "Greyhound Racing",
+                    "betType": "Win",
+                    "contestantNumber": "8. ",
+                    "contestantOdd": "4.78",
+                    "contestantName": "Frisky Whiskey",
+                    "stake": "10",
+                    "ticketID": 1724169743335
+                }
+            ]
+        }
+
+        document.getElementById('a').addEventListener('click', () => {
+            printTicket(data)
+        })
+        function printTicket(data) {
+            var totalStake = 0
+            var minMaxArray = []
+            // Create the main ticket div
+            const mainDiv = document.createElement('div')
+            mainDiv.className = 'bg-white border p-2 ticket style'
+            const headerDiv = document.createElement('div')
+            headerDiv.className = 'flex flex-col justify-center items-end'
+
+            const p1 = document.createElement('p');
+            p1.textContent = data.printArray[0].ticketID;
+            p1.className = 'text-sm';
+
+            const p2 = document.createElement('p');
+            p2.textContent = data.userName;
+            p2.className = 'text-sm';
+
+            const p3 = document.createElement('p');
+            p3.textContent = `${data.userName}.casheir${data.userCashier}`;
+            p3.className = 'text-sm';
+
+            const p4 = document.createElement('p');
+            p4.textContent = '2024/07/24 06:45:33';
+            p4.className = 'text-sm mb-4';
+
+            headerDiv.appendChild(p1);
+            headerDiv.appendChild(p2);
+            headerDiv.appendChild(p3);
+            headerDiv.appendChild(p4);
+            mainDiv.appendChild(headerDiv);
+
+            // Create ticket section
+            for (var i = 0; i < data.printArray.length; i++) {
+                const ticketDiv = document.createElement('div')
+                ticketDiv.className = 'flex justify-between items-center'
+                const p5 = document.createElement('p');
+                p5.textContent = data.printArray[i].betType;
+                p5.className = 'text-sm font-bold';
+
+                const p6 = document.createElement('p');
+                p6.textContent = `Br. ${data.printArray[i].stake}`;
+                p6.className = 'text-sm font-bold';
+
+                ticketDiv.appendChild(p5);
+                ticketDiv.appendChild(p6);
+                mainDiv.appendChild(ticketDiv);
+
+                const p7 = document.createElement('p');
+                p7.textContent = `${data.printArray[i].gameType} 2024/07/24 06:46:00 #${data.printArray[i].gameID}`;
+                p7.className = 'text-sm';
+
+                const p8 = document.createElement('p');
+                p8.textContent = `${data.printArray[i].contestantNumber} ${data.printArray[i].contestantName} ${data.printArray[i].contestantOdd}`;
+                p8.className = 'text-sm mb-4 ml-3';
+                mainDiv.appendChild(p7);
+                mainDiv.appendChild(p8);
+                totalStake += parseFloat(data.printArray[i].stake)
+                minMaxArray.push(`${parseFloat(parseFloat(data.printArray[i].stake).toFixed(2) * parseFloat(data.printArray[i].contestantOdd).toFixed(2)).toFixed(2)}`)
+            }
+            const max = Math.max(...minMaxArray);
+            const min = Math.min(...minMaxArray);
+            console.log(minMaxArray)
+            // Create stake section
+            const stakeDiv = document.createElement('div');
+            stakeDiv.className = 'flex justify-between items-center';
+
+            const p9 = document.createElement('p');
+            p9.textContent = 'Total Stake';
+            p9.className = 'text-sm font-bold mb-1';
+
+            const p10 = document.createElement('p');
+            p10.textContent = `Br. ${totalStake}`;
+            p10.className = 'text-sm font-bold mb-1';
+
+            stakeDiv.appendChild(p9);
+            stakeDiv.appendChild(p10);
+
+            // Create min/max payout section
+            const minMaxDiv = document.createElement('div');
+            minMaxDiv.className = 'border border-black px-1';
+
+            const minDiv = document.createElement('div');
+            minDiv.className = 'flex justify-between items-center';
+
+            const p11 = document.createElement('p');
+            p11.textContent = 'Min Payout (Incl. Stake)';
+            p11.className = 'text-sm font-bold';
+
+
+
+            const p12 = document.createElement('p');
+            p12.textContent = `Br. ${parseFloat(min).toFixed(2)}`;
+            p12.className = 'text-sm font-bold';
+
+            minDiv.appendChild(p11);
+            minDiv.appendChild(p12);
+
+            const maxDiv = document.createElement('div');
+            maxDiv.className = 'flex justify-between items-center';
+
+            const p13 = document.createElement('p');
+            p13.textContent = 'Max Payout (Incl. Stake)';
+            p13.className = 'text-sm font-bold';
+
+            const p14 = document.createElement('p');
+            p14.textContent = `Br. ${parseFloat(max).toFixed(2)}`;
+            p14.className = 'text-sm font-bold';
+
+            maxDiv.appendChild(p13);
+            maxDiv.appendChild(p14);
+
+            minMaxDiv.appendChild(minDiv);
+            minMaxDiv.appendChild(maxDiv);
+
+            // Append all sections to mainDiv
+
+            mainDiv.appendChild(stakeDiv);
+            mainDiv.appendChild(minMaxDiv);
+            document.body.appendChild(mainDiv)
+            // Open a new window for printing
+            // const printWindow = window.open('', '', 'width=600,height=400');
+            // printWindow.document.write('<html><head><title>Print</title>');
+            // printWindow.document.write('<style>' + document.querySelector('style').innerHTML + '</style>');
+            // printWindow.document.write('</head><body>');
+            // printWindow.document.write(mainDiv.outerHTML);
+            // printWindow.document.write('</body></html>');
+            // printWindow.document.close();
+
+            // // Print and close the new window
+            // printWindow.print();
+            // printWindow.close();
+        }
+
+
+
+    </script>
+</body>
+
+</html>

@@ -909,6 +909,12 @@
     <script src="./js/tabs.js"></script>
     <script>
 
+        const userName = '24b24'
+        const userCashier = 2
+
+
+
+
 
 
         function vibrateModals(e) {
@@ -1098,6 +1104,7 @@
                     // console.log(`${item[`w${contestants}`]}`)
                     contentDiv2Div4.id = `dog-win-${contestants}`
                     contentDiv2Div4.setAttribute('data-number', contestants)
+                    contentDiv2Div4.setAttribute('data-name', item[`name${contestants}`])
                     contentDiv2Div4.setAttribute('data-game', `${item.game}`)
                     // contentDiv2Div4.onclick = createTickets()
                     const contentDiv2Div5 = document.createElement('div')
@@ -1107,6 +1114,7 @@
 
                     contentDiv2Div5.setAttribute('data-number', contestants)
                     contentDiv2Div5.setAttribute('data-game', `${item.game}`)
+                    contentDiv2Div5.setAttribute('data-name', item[`name${contestants}`])
                     const contentDiv2Div6 = document.createElement('div')
                     contentDiv2Div6.className = 'flex items-center text-center bg-gray-700  justify-center h-8 w-14 text-gray-200 font-semibold rounded hover:bg-gray-500 cursor-pointer '
                     contentDiv2Div6.textContent = `${contestants}`
@@ -1252,13 +1260,14 @@
                     contentDiv2Div4.id = `horse-win-${contestants}`
                     contentDiv2Div4.setAttribute('data-number', contestants)
                     contentDiv2Div4.setAttribute('data-game', `${item.game}`)
+                    contentDiv2Div4.setAttribute('data-name', item[`name${contestants}`])
                     // contentDiv2Div4.onclick = createTickets()
                     const contentDiv2Div5 = document.createElement('div')
                     contentDiv2Div5.className = 'flex items-center text-center bg-yellow-200  justify-center h-8 w-14 text-gray-800 font-semibold rounded hover:bg-green-400 cursor-pointer horse-place'
                     contentDiv2Div5.textContent = `${item[`p${contestants}`]}`
                     contentDiv2Div5.id = `horse-place-${contestants}`
-
                     contentDiv2Div5.setAttribute('data-number', contestants)
+                    contentDiv2Div5.setAttribute('data-name', item[`name${contestants}`])
                     contentDiv2Div5.setAttribute('data-game', `${item.game}`)
                     const contentDiv2Div6 = document.createElement('div')
                     contentDiv2Div6.className = 'flex items-center text-center bg-gray-700  justify-center h-8 w-14 text-gray-200 font-semibold rounded hover:bg-gray-500 cursor-pointer '
@@ -1318,7 +1327,7 @@
                             stakeDiv.setAttribute('bet-type', 'Win')
                             stakeDiv.setAttribute('contestant-number', `${dog.getAttribute('data-number')}. `)
                             stakeDiv.setAttribute('contestant-odd', dog.textContent)
-                            stakeDiv.setAttribute('contestant-name', document.querySelector(`.${dog.id}-name`).textContent)
+                            stakeDiv.setAttribute('contestant-name', dog.getAttribute('data-name'))
                             const xIcon = document.createElement('i')
                             xIcon.className = 'fa-solid fa-xmark text-gray-100 text-2xl absolute top-1 right-2 hover:text-gray-400 cursor-pointer'
                             const div1 = document.createElement('div')
@@ -1331,7 +1340,7 @@
                             const num = document.createElement('span')
                             num.textContent = `${dog.getAttribute('data-number')}. `
                             const name = document.createElement('span')
-                            name.textContent = document.getElementById(`${dog.id}-name`).textContent
+                            name.textContent = dog.getAttribute('data-name')
                             const odd = document.createElement('span')
                             odd.textContent = dog.textContent
                             odd.className = 'bg-green-700 border border-green-300 px-2 text-white text-sm font-semibold ml-4 dog-win-odd'
@@ -1467,7 +1476,7 @@
                             stakeDiv.setAttribute('game-id', dog.getAttribute('data-game'))
                             stakeDiv.setAttribute('contestant-number', `${dog.getAttribute('data-number')}. `)
                             stakeDiv.setAttribute('contestant-odd', dog.textContent)
-                            stakeDiv.setAttribute('contestant-name', document.querySelector(`.${dog.id}-name`).textContent)
+                            stakeDiv.setAttribute('contestant-name', dog.getAttribute('data-name'))
                             const xIcon = document.createElement('i')
                             xIcon.className = 'fa-solid fa-xmark text-gray-100 text-2xl absolute top-1 right-2 hover:text-gray-400 cursor-pointer'
                             const div1 = document.createElement('div')
@@ -1480,7 +1489,7 @@
                             const num = document.createElement('span')
                             num.textContent = `${dog.getAttribute('data-number')}. `
                             const name = document.createElement('span')
-                            name.textContent = document.querySelector(`.${dog.id}-name`).textContent
+                            name.textContent = dog.getAttribute('data-name')
                             const odd = document.createElement('span')
                             odd.textContent = dog.textContent
                             odd.className = 'bg-green-700 border border-green-300 px-2 text-white text-sm font-semibold ml-4 dog-win-odd'
@@ -1620,7 +1629,7 @@
                             stakeDiv.setAttribute('bet-type', 'Win')
                             stakeDiv.setAttribute('contestant-number', `${dog.getAttribute('data-number')}. `)
                             stakeDiv.setAttribute('contestant-odd', dog.textContent)
-                            stakeDiv.setAttribute('contestant-name', document.querySelector(`.${dog.id}-name`).textContent)
+                            stakeDiv.setAttribute('contestant-name', dog.getAttribute('data-name'))
                             const xIcon = document.createElement('i')
                             xIcon.className = 'fa-solid fa-xmark text-gray-100 text-2xl absolute top-1 right-2 hover:text-gray-400 cursor-pointer'
                             const div1 = document.createElement('div')
@@ -1769,7 +1778,7 @@
                             stakeDiv.setAttribute('game-id', dog.getAttribute('data-game'))
                             stakeDiv.setAttribute('contestant-number', `${dog.getAttribute('data-number')}. `)
                             stakeDiv.setAttribute('contestant-odd', dog.textContent)
-                            stakeDiv.setAttribute('contestant-name', document.querySelector(`.${dog.id}-name`).textContent)
+                            stakeDiv.setAttribute('contestant-name', dog.getAttribute('data-name'))
                             const xIcon = document.createElement('i')
                             xIcon.className = 'fa-solid fa-xmark text-gray-100 text-2xl absolute top-1 right-2 hover:text-gray-400 cursor-pointer'
                             const div1 = document.createElement('div')
@@ -2162,6 +2171,11 @@
 
         function placeBet() {
             const selections = document.querySelectorAll('.selected-item')
+            let printData = {
+                userName: userName,
+                userCashier: userCashier,
+            }
+            let printArray = []
             selections.forEach(selection => {
                 const gameID = selection.getAttribute('game-id');
                 const gameType = selection.getAttribute('game-type');
@@ -2171,7 +2185,7 @@
                 const contestantOdd = selection.getAttribute('contestant-odd');
                 const stake = selection.querySelector('.stake-input').value;
 
-                const data = {
+                const betsData = {
                     gameID: gameID,
                     gameType: gameType,
                     betType: betType,
@@ -2181,11 +2195,221 @@
                     stake: stake,
                     ticketID: new Date().getTime()
                 }
-                console.log(data)
-                saveTicketData(data)
+                // console.log(data)
+                printArray.push(betsData)
+                saveTicketData(betsData)
             })
-
+            printData = {
+                ...printData,
+                printArray
+            }
+            // console.log(printArray, '123')
+            printTicket(printData)
         }
+
+        function printTicket(data) {
+            var totalStake = 0
+            var minMaxArray = []
+            // Create the main ticket div
+            const mainDiv = document.createElement('div')
+            mainDiv.className = 'bg-white p-2 ticket style'
+            const headerDiv = document.createElement('div')
+            headerDiv.className = 'flex flex-col justify-center items-end'
+
+            const p1 = document.createElement('p');
+            p1.textContent = data.printArray[0].ticketID;
+            p1.className = 'text-sm';
+
+            const p2 = document.createElement('p');
+            p2.textContent = data.userName;
+            p2.className = 'text-sm';
+
+            const p3 = document.createElement('p');
+            p3.textContent = `${data.userName}.casheir${data.userCashier}`;
+            p3.className = 'text-sm';
+
+            const p4 = document.createElement('p');
+            p4.textContent = '2024/07/24 06:45:33';
+            p4.className = 'text-sm mb-4';
+
+            headerDiv.appendChild(p1);
+            headerDiv.appendChild(p2);
+            headerDiv.appendChild(p3);
+            headerDiv.appendChild(p4);
+            mainDiv.appendChild(headerDiv);
+
+            // Create ticket section
+            for (var i = 0; i < data.printArray.length; i++) {
+                const ticketDiv = document.createElement('div')
+                ticketDiv.className = 'flex justify-between items-center'
+                const p5 = document.createElement('p');
+                p5.textContent = data.printArray[i].betType;
+                p5.className = 'text-sm font-bold';
+
+                const p6 = document.createElement('p');
+                p6.textContent = `Br. ${parseFloat(data.printArray[i].stake).toFixed(2)}`;
+                p6.className = 'text-sm font-bold';
+
+                ticketDiv.appendChild(p5);
+                ticketDiv.appendChild(p6);
+                mainDiv.appendChild(ticketDiv);
+
+                const p7 = document.createElement('p');
+                p7.textContent = `${data.printArray[i].gameType} 2024/07/24 06:46:00 #${data.printArray[i].gameID}`;
+                p7.className = 'text-sm';
+
+                const p8 = document.createElement('p');
+                p8.textContent = `${data.printArray[i].contestantNumber} ${data.printArray[i].contestantName} ${data.printArray[i].contestantOdd}`;
+                p8.className = 'text-sm mb-4 ml-3';
+                mainDiv.appendChild(p7);
+                mainDiv.appendChild(p8);
+                totalStake += parseFloat(data.printArray[i].stake)
+                minMaxArray.push(`${parseFloat(parseFloat(data.printArray[i].stake).toFixed(2) * parseFloat(data.printArray[i].contestantOdd).toFixed(2)).toFixed(2)}`)
+            }
+            const max = Math.max(...minMaxArray);
+            const min = Math.min(...minMaxArray);
+            // Create stake section
+            const stakeDiv = document.createElement('div');
+            stakeDiv.className = 'flex justify-between items-center';
+
+            const p9 = document.createElement('p');
+            p9.textContent = 'Total Stake';
+            p9.className = 'text-sm font-bold mb-1';
+
+            const p10 = document.createElement('p');
+            p10.textContent = `Br. ${parseFloat(totalStake).toFixed(2)}`;
+            p10.className = 'text-sm font-bold mb-1';
+
+            stakeDiv.appendChild(p9);
+            stakeDiv.appendChild(p10);
+
+            // Create min/max payout section
+            const minMaxDiv = document.createElement('div');
+            minMaxDiv.className = 'border border-black px-1';
+
+            const minDiv = document.createElement('div');
+            minDiv.className = 'flex justify-between items-center';
+
+            const p11 = document.createElement('p');
+            p11.textContent = 'Min Payout (Incl. Stake)';
+            p11.className = 'text-sm font-bold';
+
+            const p12 = document.createElement('p');
+            p12.textContent = `Br. ${parseFloat(min).toFixed(2)}`;
+            p12.className = 'text-sm font-bold';
+
+            minDiv.appendChild(p11);
+            minDiv.appendChild(p12);
+
+            const maxDiv = document.createElement('div');
+            maxDiv.className = 'flex justify-between items-center';
+
+            const p13 = document.createElement('p');
+            p13.textContent = 'Max Payout (Incl. Stake)';
+            p13.className = 'text-sm font-bold';
+
+            const p14 = document.createElement('p');
+            p14.textContent = `Br. ${parseFloat(max).toFixed(2)}`;
+            p14.className = 'text-sm font-bold';
+
+            maxDiv.appendChild(p13);
+            maxDiv.appendChild(p14);
+
+            minMaxDiv.appendChild(minDiv);
+            minMaxDiv.appendChild(maxDiv);
+
+            // Append all sections to mainDiv
+
+            mainDiv.appendChild(stakeDiv);
+            mainDiv.appendChild(minMaxDiv);
+            // Open a new window for printing
+            const printWindow = window.open('', '', 'width=600,height=400');
+            printWindow.document.write('<html><head><title>Print</title>');
+            printWindow.document.write(` <style>
+        /* Add some basic styling */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        .ticket {
+            font-family: Arial, sans-serif;
+            width: 300px;
+        }
+
+        .text-sm {
+            font-size: 12px;
+        }
+
+        .font-bold {
+            font-weight: bold;
+        }
+
+        .mb-4 {
+            margin-bottom: 16px;
+        }
+
+        .mb-1 {
+            margin-bottom: 4px;
+        }
+
+        .ml-3 {
+            margin-left: 12px;
+        }
+
+        .border {
+            border: 1px solid black;
+        }
+
+        .p-2 {
+            padding: 8px;
+        }
+
+        .px-1 {
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .flex-col {
+            flex-direction: column;
+        }
+
+        .flex-col p {
+            margin-bottom: .5px;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .justify-center {
+            justify-content: center;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .items-end {
+            align-items: flex-end;
+        }
+    </style>`);
+            printWindow.document.write('</head><body>');
+            printWindow.document.write(mainDiv.outerHTML);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+
+            // Print and close the new window
+            printWindow.print();
+            printWindow.close();
+        }
+
+
 
         async function saveTicketData(data) {
             try {
