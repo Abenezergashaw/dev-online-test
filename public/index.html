@@ -150,7 +150,7 @@
 </head>
 
 <body class="bg-gray-800 overflow-y-scroll">
-
+    <div id="asad" class="text-gray-100"></div>
     <!-- Cashier Option modal -->
     <div id="cashier-option-modal" class="fixed z-10 inset-0 hidden">
         <div class=" flex pt-20 justify-center min-h-screen bg-gray-500 bg-opacity-25 transition-opacity"
@@ -237,7 +237,7 @@
     </div>
 
 
-    <nav class=" bg-gray-900 p-4 shadow-lg">
+    <nav class=" bg-gray-900 p-4 shadow-lg ">
         <div class="container mx-auto flex justify-between items-center relative">
             <a href="#" class="text-white text-lg font-semibold">KIRON</a>
 
@@ -907,6 +907,8 @@
     <script src=" ./js/responsive-navbar.js"></script>
     <script src="./js/timeObj.js"></script>
     <script src="./js/tabs.js"></script>
+    <script src="./js/timer.js"></script>
+
     <script>
 
         const userName = '24b24'
@@ -1012,8 +1014,9 @@
                 const headerDiv1Div1 = document.createElement('div')
                 headerDiv1Div1.className = 'flex flex-col'
                 const timer = document.createElement('span')
-                index == 0 ? timer.className = 'bg-yellow-200 rounded text-red-700 flex justify-center items-center' : timer.className = 'bg-yellow-200 rounded text-red-700 flex justify-center items-center hidden'
-                timer.textContent = '2:03'
+                index == 0 ? timer.className = 'bg-yellow-200 rounded text-red-700 flex justify-center items-center dog-timer-label bold' : timer.className = 'bg-yellow-200 rounded text-red-700 flex justify-center items-center hidden dog-timer-label'
+                timer.id = 'dog-timer-label'
+                timer.textContent = '00:00'
                 const gameTime = document.createElement('h2')
                 gameTime.className = 'text-lg font-semibold mr-2'
                 gameTime.textContent = `${dogObj[item.game].slice(0, -3)}`
@@ -1147,6 +1150,8 @@
             })
             accordionAction()
             createDogTickets()
+            startTimerDog();
+
         }
 
         async function createOneGameAccordionForHorse(e) {
@@ -1167,8 +1172,9 @@
                 const headerDiv1Div1 = document.createElement('div')
                 headerDiv1Div1.className = 'flex flex-col'
                 const timer = document.createElement('span')
-                index == 0 ? timer.className = 'bg-yellow-200 rounded text-red-700 flex justify-center items-center' : timer.className = 'bg-yellow-200 rounded text-red-700 flex justify-center items-center hidden'
-                timer.textContent = '2:45'
+                index == 0 ? timer.className = 'bg-yellow-200 rounded text-red-700 flex justify-center items-center bold' : timer.className = 'bg-yellow-200 rounded text-red-700 flex justify-center items-center hidden'
+                timer.id = 'horse-timer-label'
+                timer.textContent = '00:00'
                 const gameTime = document.createElement('h2')
                 gameTime.className = 'text-lg font-semibold mr-2'
                 gameTime.textContent = `${horseObj[item.game].slice(0, -3)}`
@@ -1301,7 +1307,7 @@
             })
             createHorseTickets()
             accordionAction()
-
+            startTimerHorse()
         }
 
 
@@ -2459,7 +2465,6 @@
 
     </script>
     <script src="./js/accordion.js"></script>
-
 </body>
 
 </html>
