@@ -127,8 +127,12 @@ app.post("/save-ticket-data", (req, res) => {
 });
 
 // Fetch dog data
-app.get("/dog-data", (req, res) => {
-  const query = "SELECT * FROM dogodds where game BETWEEN 2049 AND 2058";
+app.post("/dog-data", (req, res) => {
+  const currentDogGameID = req.body.currentDogGameID;
+
+  const query = `SELECT * FROM dogodds where game BETWEEN ${
+    currentDogGameID - 1
+  } AND ${currentDogGameID + 10}`;
 
   db.query(query, (error, results) => {
     if (error) {

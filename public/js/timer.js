@@ -18,17 +18,37 @@ function getSecondsUntilNextIntervalDog() {
   );
 }
 
+function updateLabelDog() {
+  const now = new Date();
+  const start = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+    0,
+    0,
+    59,
+    0
+  );
+  const msPerInterval = 10 * 60 * 1000; // 10 minutes
+  const initialValue = 1985;
+  const intervalsPassed = Math.floor(
+    (now.getTime() - start.getTime()) / msPerInterval
+  );
+  // labelElementmm.textContent = initialValue + intervalsPassed;
+  return initialValue + intervalsPassed;
+}
+
 function updateTimerDog(dogTimerCounter) {
   const secondsLeft = getSecondsUntilNextIntervalDog();
   const minutes = Math.floor(secondsLeft / 60);
   const seconds = parseInt(secondsLeft % 60);
-  //   console.log(`${minutes}:${seconds.toString().padStart(2, "0")}`);
   if (dogTimerCounter) {
+    // console.log(`${minutes}:${seconds.toString().padStart(2, "0")}`);
     dogTimerCounter.textContent = `${minutes}:${seconds
       .toString()
       .padStart(2, "0")}`;
   } else {
-    console.warn("Timer element not found");
+    console.log("Timer element not found");
   }
 }
 
@@ -40,6 +60,7 @@ function startTimerDog() {
 
       function update() {
         updateTimerDog(dogTimerCounter);
+        updateLabelDog();
         requestAnimationFrame(update);
       }
       update();

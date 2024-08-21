@@ -946,13 +946,23 @@
         let data = null;
         // console.log(data)
         async function fetchDogData() {
+            console.log(updateLabelDog())
+            const currentDogGameID = updateLabelDog()
             document.getElementById('spinner').classList.remove('hidden')
             const dogContainer = document.querySelector('.dog-container')
             dogContainer.querySelectorAll('.accordion-item').forEach(item => {
                 item.remove()
             })
             try {
-                const response = await fetch('/dog-data');
+                // const response = await fetch('/dog-data');
+                const response = await fetch('/dog-data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ currentDogGameID })
+                });
+
                 data = await response.json();
                 console.log(data)
                 document.getElementById('spinner').classList.add('hidden')
@@ -1008,15 +1018,16 @@
                 accordion.id = `game-${item.game}`
                 // Accordion Header
                 const accordionHeader = document.createElement('div')
-                index == 0 ? accordionHeader.className = 'accordion-header flex justify-between items-center p-1 cursor-pointer text-white bg-green-500 transition-all duration-500 ease-in-out' : accordionHeader.className = 'accordion-header flex justify-between items-center p-1 cursor-pointer text-white transition-all duration-500 ease-in-out'
+
+                item.game == updateLabelDog() ? accordionHeader.className = 'accordion-header flex justify-between items-center p-1 cursor-pointer text-white bg-green-500 transition-all duration-500 ease-in-out' : accordionHeader.className = 'accordion-header flex justify-between items-center p-1 cursor-pointer text-white transition-all duration-500 ease-in-out'
                 const headerDiv1 = document.createElement('div')
                 headerDiv1.className = 'flex items-center'
                 const headerDiv1Div1 = document.createElement('div')
                 headerDiv1Div1.className = 'flex flex-col'
                 const timer = document.createElement('span')
-                index == 0 ? timer.className = 'bg-yellow-200 rounded text-red-700 flex justify-center items-center dog-timer-label bold' : timer.className = 'bg-yellow-200 rounded text-red-700 flex justify-center items-center hidden dog-timer-label'
-                timer.id = 'dog-timer-label'
+                item.game == updateLabelDog() ? timer.className = 'bg-yellow-200 rounded text-red-700 flex justify-center items-center dog-timer-label bold' : timer.className = 'bg-yellow-200 rounded text-red-700 flex justify-center items-center hidden dog-timer-label'
                 timer.textContent = '00:00'
+                item.game == updateLabelDog() ? timer.id = 'dog-timer-label' : ''
                 const gameTime = document.createElement('h2')
                 gameTime.className = 'text-lg font-semibold mr-2'
                 gameTime.textContent = `${dogObj[item.game].slice(0, -3)}`
@@ -1030,11 +1041,11 @@
                 headerDiv1Div2Div2.textContent = `ID ${item.game}`
                 const closeBtn = document.createElement('button')
                 closeBtn.className = 'toggle-btn text-3xl font-bold'
-                index == 0 ? closeBtn.textContent = '-' : closeBtn.textContent = '+'
+                item.game == updateLabelDog() ? closeBtn.textContent = '-' : closeBtn.textContent = '+'
 
                 // Accordion content
                 const accordionContent = document.createElement('div')
-                index == 0 ? accordionContent.className = 'accordion-content open px-4 pb-1' : accordionContent.className = 'accordion-content px-4 pb-1'
+                item.game == updateLabelDog() ? accordionContent.className = 'accordion-content open px-4 pb-1' : accordionContent.className = 'accordion-content px-4 pb-1'
                 const width75 = document.createElement('div')
                 width75.className = 'width-75'
                 const contentDiv1 = document.createElement('div')
@@ -1102,7 +1113,7 @@
 
 
                     const contentDiv2Div4 = document.createElement('div')
-                    contentDiv2Div4.className = 'flex items-center text-center bg-yellow-200  justify-center h-8 w-14 text-gray-800 font-semibold rounded hover:bg-green-400 cursor-pointer dog-win'
+                    item.game == updateLabelDog() - 1 ? contentDiv2Div4.className = 'flex items-center text-center bg-yellow-200  justify-center h-8 w-14 text-gray-800 font-semibold rounded hover:bg-green-400 opacity-50 cursor-not-allowed pointer-events-none dog-win' : contentDiv2Div4.className = 'flex items-center text-center bg-yellow-200  justify-center h-8 w-14 text-gray-800 font-semibold rounded hover:bg-green-400 cursor-pointer dog-win'
                     contentDiv2Div4.textContent = `${item[`w${contestants}`]}`
                     // console.log(`${item[`w${contestants}`]}`)
                     contentDiv2Div4.id = `dog-win-${contestants}`
@@ -1111,7 +1122,7 @@
                     contentDiv2Div4.setAttribute('data-game', `${item.game}`)
                     // contentDiv2Div4.onclick = createTickets()
                     const contentDiv2Div5 = document.createElement('div')
-                    contentDiv2Div5.className = 'flex items-center text-center bg-yellow-200  justify-center h-8 w-14 text-gray-800 font-semibold rounded hover:bg-green-400 cursor-pointer dog-place'
+                    item.game == updateLabelDog() - 1 ? contentDiv2Div5.className = 'flex items-center text-center bg-yellow-200  justify-center h-8 w-14 text-gray-800 font-semibold rounded hover:bg-green-400 opacity-50 cursor-not-allowed pointer-events-none dog-win' : contentDiv2Div5.className = 'flex items-center text-center bg-yellow-200  justify-center h-8 w-14 text-gray-800 font-semibold rounded hover:bg-green-400 cursor-pointer dog-win'
                     contentDiv2Div5.textContent = `${item[`p${contestants}`]}`
                     contentDiv2Div5.id = `dog-place-${contestants}`
 
@@ -1119,7 +1130,7 @@
                     contentDiv2Div5.setAttribute('data-game', `${item.game}`)
                     contentDiv2Div5.setAttribute('data-name', item[`name${contestants}`])
                     const contentDiv2Div6 = document.createElement('div')
-                    contentDiv2Div6.className = 'flex items-center text-center bg-gray-700  justify-center h-8 w-14 text-gray-200 font-semibold rounded hover:bg-gray-500 cursor-pointer '
+                    item.game == updateLabelDog() - 1 ? contentDiv2Div6.className = 'flex items-center text-center bg-gray-700  justify-center h-8 w-14 text-gray-200 font-semibold rounded hover:bg-gray-500 opacity-50 cursor-not-allowed pointer-events-none' : contentDiv2Div6.className = 'flex items-center text-center bg-gray-700  justify-center h-8 w-14 text-gray-200 font-semibold rounded hover:bg-gray-500 cursor-pointer '
                     contentDiv2Div6.textContent = `${contestants}`
                     const contentDiv2Div7 = document.createElement('div')
                     contentDiv2Div7.className = 'flex items-center text-center'
