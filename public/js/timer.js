@@ -43,11 +43,11 @@ function updateTimerDog(dogTimerCounter) {
   const minutes = Math.floor(secondsLeft / 60);
   const seconds = parseInt(secondsLeft % 60);
   if (dogTimerCounter) {
-    console.log(
-      `${minutes.toString().padStart(2, "0")}:${seconds
-        .toString()
-        .padStart(2, "0")}`
-    );
+    // console.log(
+    //   `${minutes.toString().padStart(2, "0")}:${seconds
+    //     .toString()
+    //     .padStart(2, "0")}`
+    // );
     dogTimerCounter.textContent = `${minutes
       .toString()
       .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
